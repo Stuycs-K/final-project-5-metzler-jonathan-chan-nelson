@@ -1,0 +1,6 @@
+void setup(){
+  size(1500,500);
+  textSize(40);
+  fill(0, 102, 153);
+  text("This is da best project",0,40);
+}
