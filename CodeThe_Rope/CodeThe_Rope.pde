@@ -1,25 +1,31 @@
-ArrayList<Candy>candyList;
+Candy c;
+Candy earth, center;
+static double G = 20;
+
+/**
+ *IN THIS TAB: MODIFY YOUR SETUP BEFORE YOU EDIT ORB
+ */
+
 void setup() {
-  size(1000, 700);
-  candyList = new ArrayList<Candy>();
+  size(1200, 900);
+
+  //CHANGE THIS
+  //make earth (mass of 500million) place it very far off the bottom of the screen
+  earth = new Candy(width/2,height*200,0,0,20,500000000);
+
+
+  //DO NOT CHANGE THIS:
+  c=new Candy(mouseX, mouseY, -1, 0, 20, 10);
 }
 void mouseClicked() {
-  //add a new Orb to the orbList, constructed as follows:
-  //The x and y positions are the same as the mouse
-  //the radius should be a random value in the range [20.0,70.0)
-  //the xSpeed and ySpeed should be random values in the range [-3.0,3.0)
-  float xSpeed=random(-3,3);
-  float ySpeed=random(-3,3);
-  Candy c = new Candy(mouseX,mouseY,xSpeed,ySpeed,20);
-  candyList.add(c);
+  setup();
 }
+
 void draw() {
   background(255);
-  for (Candy c : candyList) {
-    c.move();
-    c.display();
-  }
+  c.move();
+  c.display();
+      c.applyForce(c.attractTo(earth));
   fill(0);
-  text(frameRate,20,20);
-  text(candyList.size(),20,40);
+    text("Earth Mode", 20, 20);
 }
