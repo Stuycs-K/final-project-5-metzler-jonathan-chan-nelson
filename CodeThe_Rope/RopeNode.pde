@@ -4,20 +4,39 @@ public class RopeNode{
   private float mass;
   private boolean movable = true;
   
-  public RopeNode(RopeNode a, RopeNode b, PVector p, float m){
-    if(a == null || b == null) movable = false;
-    neighborA = a;
-    neighborB = b;
+  public RopeNode(PVector p, float m){
+    neighborA = null;
+    neighborB = null;
     position = p;
     mass = m;
     velocity = new PVector(0.0, 0.0);
     acceleration = new PVector(0, 0);
     tension = new PVector(0, 0);
+    movable = true;
   }
   
-  public RopeNode getNeighbor(int n){
-    if(n % 2 == 0) return neighborA;
+  public void setPrev(RopeNode a){
+    neighborA = a;
+  }
+  
+  public void setNext(RopeNode b){
+    neighborB = b;
+  }
+  
+  public void setMovable(boolean m){
+    movable = m;
+  }
+  
+  public RopeNode getPrev(){
+    return neighborA;
+  }
+  
+  public RopeNode getNext(){
     return neighborB;
+  }
+  
+  public PVector getPosition(){
+    return position;
   }
   
   public PVector getVelocity(){
