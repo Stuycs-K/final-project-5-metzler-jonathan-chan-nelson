@@ -1,10 +1,10 @@
 public class Rope{
   private RopeNode endpointA, endpointB;
-  float len, mass;
+  float length, mass;
   int numNodes;
   
   public Rope(PVector a, PVector b, float l, float m, int n){
-    len = l;
+    length = l;
     mass = m;
     numNodes = n;
     endpointA = new RopeNode(a, mass/ n);
@@ -14,7 +14,7 @@ public class Rope{
     // Create Array
     RopeNode currNode = endpointA;
     for(int i = 1; i < n - 1; i++){
-      PVector p = new PVector(0, i);
+      PVector p = new PVector(i * i, 50 * i);
       RopeNode node = new RopeNode(p, mass/ n);
       currNode.setNext(node);
       node.setPrev(currNode);
@@ -22,6 +22,14 @@ public class Rope{
     }
     currNode.setNext(endpointB);
     endpointB.setPrev(currNode);
+  }
+  
+  public float getLength(){
+    return length;
+  }
+  
+  public int getNum(){
+    return numNodes;
   }
   
   public PVector getPosition(int i) throws Exception{
@@ -36,6 +44,26 @@ public class Rope{
     else return getPosition(i + 1, r.getPrev());
   }
   
+  public void display(){
+    RopeNode currNode = endpointA;
+    float w = 5;
+    for(int i = 0; i < numNodes - 1; i++){
+      RopeNode node = currNode.getNext();
+      PVector currPos = currNode.getPosition();
+      rect(currPos.x, currPos.y, 5, 5);
+      PVector pos = node.getPosition();
+      float angle = PI + atan((currPos.y - pos.y)/(currPos.x - pos.x));
+      float x = PVector.add(currPos, pos).x / 2;
+      float y = PVector.add(currPos, pos).y /2;
+      float l = PVector.dist(currPos, pos);
+      translate(x, y);
+      rotate(angle);
+      rect(- l / 2, - w / 2, l, w);
+      rotate(-angle);
+      translate(-x, -y);
+      currNode = node;
+    }
+  }
   
   public void connect(){
   }

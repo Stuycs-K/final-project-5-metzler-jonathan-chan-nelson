@@ -4,10 +4,7 @@ void setup(){
   fill(0, 102, 153);
   text("This is da best project",0,40);
   
-  Rope r = new Rope(new PVector(0,0), new PVector(0, 9), 10, 4, 10);
-  try{
-    print(r.getPosition(5));
-  } catch(Exception e){
-    print(e);
-  }
+  
+  Rope r = new Rope(new PVector(0,0), new PVector(0, 200), 10, 4, 10);
+  r.display();
 }
