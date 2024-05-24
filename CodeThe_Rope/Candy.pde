@@ -1,5 +1,5 @@
-public class Candy {
-  PVector position, velocity, acceleration;
+public class Candy extends node{
+  PVector velocity, acceleration;
   float radius;
   float mass;
   color c;
@@ -77,7 +77,7 @@ public class Candy {
   //DO NOT CHANGE THINGS BELOW THIS POINT
 
   public Candy(float x, float y, float xSpeed, float ySpeed, float radius_, float mass_ ) {
-    position = new PVector(x, y);
+    super(x,y,createShape(ELLIPSE, x, y, radius_, radius_));
     velocity = new PVector(xSpeed, ySpeed);
     acceleration = new PVector(0, 0);
     mass = mass_;
