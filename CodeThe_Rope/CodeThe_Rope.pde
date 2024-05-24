@@ -1,5 +1,5 @@
 Candy c;
-Candy earth, center;
+PVector gravity;
 static double G = 20;
 
 /**
@@ -11,7 +11,7 @@ void setup() {
 
   //CHANGE THIS
   //make earth (mass of 500million) place it very far off the bottom of the screen
-  earth = new Candy(width/2,height*200,0,0,20,500000000);
+  gravity = new PVector(0, 10);
 
 
   //DO NOT CHANGE THIS:
@@ -25,7 +25,7 @@ void draw() {
   background(255);
   c.move();
   c.display();
-      c.applyForce(c.attractTo(earth));
+  c.applyForce(gravity);
   fill(0);
-    text("Earth Mode", 20, 20);
+  text("Earth Mode", 20, 20);
 }

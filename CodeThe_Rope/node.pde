@@ -7,7 +7,7 @@ public class node{
     s = shape_;
   }
   void display() {
-    fill(0,0,0);
+    fill(255,255,255);
     noStroke();
     shape(s,position.x,position.y);
   }
