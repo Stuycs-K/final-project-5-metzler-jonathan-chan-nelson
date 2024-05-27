@@ -1,5 +1,4 @@
 Candy c;
-goal g;
 PVector gravity;
 
 /**
@@ -16,7 +15,6 @@ void setup() {
 
   //DO NOT CHANGE THIS:
   c=new Candy(mouseX, mouseY, -1, 0, 20, 10);
-  g=new goal(0,0,20);
 }
 void mouseClicked() {
   setup();
@@ -24,9 +22,8 @@ void mouseClicked() {
 
 void draw() {
   background(255);
-  c.move(g);
+  c.move();
   c.display();
-  g.display();
   c.applyForce(gravity);
   fill(0);
   text("Earth Mode", 20, 20);
