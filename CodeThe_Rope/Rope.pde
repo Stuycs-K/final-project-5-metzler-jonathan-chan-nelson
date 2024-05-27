@@ -21,17 +21,13 @@ public class Rope{
     float dx = (P2.x - P1.x) / n;
     for(int i = 1; i < n - 1; i++){
       PVector p;
-      //print((float) (a * Math.cosh((P1.x + i * dx - b) / a) + c));
       if(dx == 0) p = new PVector(P1.x, i * l / n + P1.y);
       else p = new PVector((float) (P1.x + i * dx), (float) - (a * Math.cosh((P1.x + i * dx - b) / a) + c));
-      println(p);
-      //println(p);
       RopeNode node = new RopeNode(p, mass/ n);
       currNode.setNext(node);
       node.setPrev(currNode);
       currNode = node;
     }
-    print(A);
     currNode.setNext(endpointB);
     endpointB.setPrev(currNode);
   }
