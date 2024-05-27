@@ -1,6 +1,5 @@
 Candy c;
 PVector gravity;
-static double G = 20;
 
 /**
  *IN THIS TAB: MODIFY YOUR SETUP BEFORE YOU EDIT ORB
@@ -11,7 +10,7 @@ void setup() {
 
   //CHANGE THIS
   //make earth (mass of 500million) place it very far off the bottom of the screen
-  gravity = new PVector(0, 10);
+  gravity = new PVector(0, 7.5);
 
 
   //DO NOT CHANGE THIS:
