@@ -3,18 +3,25 @@ public class Rope{
   float length, mass;
   int numNodes;
   
-  public Rope(PVector a, PVector b, float l, float m, int n){
+  public Rope(PVector P1, PVector P2, float l, float m, int n){
     length = l;
     mass = m;
     numNodes = n;
-    endpointA = new RopeNode(a, mass/ n);
-    endpointB = new RopeNode(b, mass/ n);
+    endpointA = new RopeNode(P1, mass/ n);
+    endpointB = new RopeNode(P2, mass/ n);
     endpointA.setMovable(false);
     endpointB.setMovable(false);
     // Create Array
     RopeNode currNode = endpointA;
+    float A = calcA(P1, P2, l);
+    float dx = (P1.x - P2.x)/n;
+    float a = (P1.x - P2.x)/(2 * A);
+    float b = (float) ((P1.x + P2.x)/2 - a * Math.log((1 + (P1.y - P2.y) / l) / (1 - (P1.y - P2.y) / l)) / 2);
+    float c = (float) (P1.y - a * Math.cosh((P1.x - b) / a));
     for(int i = 1; i < n - 1; i++){
-      PVector p = new PVector(i * i, 50 * i);
+      PVector p;
+      if(dx == 0) p = new PVector(P1.x, i * l / n + P1.y);
+      else p = new PVector((float) (P1.x + i * dx), (float) (a * Math.cosh((P1.x + i * dx - b) / a) + c));
       RopeNode node = new RopeNode(p, mass/ n);
       currNode.setNext(node);
       node.setPrev(currNode);
@@ -22,6 +29,14 @@ public class Rope{
     }
     currNode.setNext(endpointB);
     endpointB.setPrev(currNode);
+  }
+  
+  private float calcA(PVector P1, PVector P2, float l){
+    double r = Math.sqrt(Math.pow(l, 2) - Math.pow(P1.y - P2.y, 2));
+    float dA = 0.001;
+    float A = 0.01;
+    while(r * (A + dA) <= Math.sinh(A + dA)) A += dA;
+    return A;
   }
   
   public float getLength(){

@@ -5,6 +5,6 @@ void setup(){
   text("This is da best project",0,40);
   
   
-  Rope r = new Rope(new PVector(0,0), new PVector(0, 200), 10, 4, 10);
+  Rope r = new Rope(new PVector(30, 50), new PVector(200, 500), 10, 4, 800);
   r.display();
 }
