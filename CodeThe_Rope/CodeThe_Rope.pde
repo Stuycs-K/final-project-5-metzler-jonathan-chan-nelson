@@ -7,7 +7,6 @@ PVector gravity;
 
 void setup() {
   size(1500,1500);  
-  
   // Demonstrate stationary rope
   PVector P1 = new PVector(20, 30);
   PVector P2 = new PVector(180, 320);
