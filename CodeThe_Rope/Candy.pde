@@ -1,5 +1,5 @@
-public class Candy {
-  PVector position, velocity, acceleration;
+public class Candy extends node{
+  PVector velocity, acceleration;
   float radius;
   float mass;
   color c;
@@ -77,22 +77,14 @@ public class Candy {
   //DO NOT CHANGE THINGS BELOW THIS POINT
 
   public Candy(float x, float y, float xSpeed, float ySpeed, float radius_, float mass_ ) {
-    position = new PVector(x, y);
+    super(x,y,createShape(ELLIPSE, 0, 0, radius_, radius_));
     velocity = new PVector(xSpeed, ySpeed);
     acceleration = new PVector(0, 0);
     mass = mass_;
     radius = radius_;
     c = color(random(255), random(255), random(255));
   }
-
-
-  void display() {
-    fill(c);
-    noStroke();
-    circle(position.x, position.y, (float)radius*2);
-  }
-
-
+  
   public void youLose() {
     if (position.x < radius)
           text("You Lose", 500, 500);
