@@ -11,11 +11,11 @@ info
 info
 
 
-## GROUP MEMBER 2
+## Nelson Chan
 
-### date x
+### May 27
 
-info
+Basic Rope Class Methods Finished: Constructor and display() 
 
 ### date y
 

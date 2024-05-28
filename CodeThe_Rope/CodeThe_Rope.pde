@@ -7,7 +7,18 @@ PVector gravity;
  */
 
 void setup() {
-  size(1200, 900);
+  size(1500,1500);  
+  // Demonstrate stationary rope
+  PVector P1 = new PVector(20, 30);
+  PVector P2 = new PVector(180, 320);
+  float len = PVector.dist(P1, P2);
+  try{
+    Rope r = new Rope(P1, P2, len * 2, 4, 60);
+    r.display();
+  } catch(Exception e){
+    print(e);
+  }
+  
 
   //CHANGE THIS
   //make earth (mass of 500million) place it very far off the bottom of the screen
@@ -18,6 +29,7 @@ void setup() {
   c=new Candy(mouseX, mouseY, -1, 0, 20, 10);
   g=new goal(0,0,20);
 }
+
 void mouseClicked() {
   setup();
 }
