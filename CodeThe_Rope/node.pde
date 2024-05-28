@@ -9,9 +9,8 @@ public class node{
     c=c_;
   }
   void display() {
-    fill(c);
-    noStroke();
     shape(s,position.x,position.y);
+    s.setFill(c);
   }
   void hide(){
     s.setVisible(false);

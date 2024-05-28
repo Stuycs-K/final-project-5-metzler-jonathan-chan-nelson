@@ -5,7 +5,7 @@ public class Candy extends node{
   color c;
   void move(goal other) {
     if(youWin(other)){}
-    if(youLose()){}
+    else if(youLose()){}
     else{
       velocity.add(acceleration);
       position.add(velocity);
@@ -46,7 +46,7 @@ public class Candy extends node{
   }
   
   public boolean youWin(goal other) {
-    if(this.calcDistance(other)<other.getRadius()+this.radius){
+    if(this.calcDistance(other)<this.radius){
       text("You Win", 500, 500);
       return true;
     }

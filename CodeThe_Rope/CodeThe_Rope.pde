@@ -7,7 +7,8 @@ PVector gravity;
  */
 
 void setup() {
-  size(1500,1500);  
+  size(1500,900);  
+  /*
   // Demonstrate stationary rope
   PVector P1 = new PVector(20, 30);
   PVector P2 = new PVector(180, 320);
@@ -18,16 +19,11 @@ void setup() {
   } catch(Exception e){
     print(e);
   }
-  
-
-  //CHANGE THIS
-  //make earth (mass of 500million) place it very far off the bottom of the screen
+  */
   gravity = new PVector(0, 6);
 
-
-  //DO NOT CHANGE THIS:
   c=new Candy(mouseX, mouseY, -1, 0, 20, 10);
-  g=new goal(0,0,20);
+  g=new goal(500,500,100);
 }
 
 void mouseClicked() {
