@@ -22,8 +22,8 @@ void setup() {
   */
   gravity = new PVector(0, 6);
 
-  c=new Candy(mouseX, mouseY, -1, 0, 20, 10);
-  g=new goal(500,500,100);
+  c=new Candy(mouseX, mouseY, -1, 0, 10, 20);
+  g=new goal(500,500,20);
 }
 
 void mouseClicked() {
@@ -37,5 +37,6 @@ void draw() {
   g.display();
   c.applyForce(gravity);
   fill(0);
+  //text(""+c.calcDistance(g), 20, 40);
   text("Earth Mode", 20, 20);
 }
