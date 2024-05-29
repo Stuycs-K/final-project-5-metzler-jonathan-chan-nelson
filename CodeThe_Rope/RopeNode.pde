@@ -4,15 +4,23 @@ public class RopeNode{
   private float mass;
   private boolean movable = true;
   
-  public RopeNode(PVector p, float m){
+  public RopeNode(PVector p, PVector v, PVector a, PVector t, float m, boolean movable){
     neighborA = null;
     neighborB = null;
     position = p;
+    velocity = v;
+    acceleration = a;
+    tension = t;
     mass = m;
-    velocity = new PVector(0.0, 0.0);
-    acceleration = new PVector(0, 0);
-    tension = new PVector(0, 0);
-    movable = true;
+    movable = movable;
+  }
+  
+  public RopeNode(PVector p, float m){
+    this(p, new PVector(0,0), new PVector(0,0), new PVector(0,0), m, true);
+  }
+  
+  public RopeNode(RopeNode r){
+    this(r.getPosition(), r.getVelocity(), r.getAcceleration(), r.getTension(), r.getMass(), r.getMovable());
   }
   
   public void setPrev(RopeNode a){
@@ -49,6 +57,10 @@ public class RopeNode{
   
   public PVector getAcceleration(){
     return acceleration;
+  }
+  
+  public float getMass(){
+    return mass;
   }
   
   public PVector getTension(){

@@ -7,7 +7,7 @@ Rope r;
  */
 
 void setup() {
-  gravity = new PVector(0.0, 0.3);
+  gravity = new PVector(0.0, 0.1);
   size(1500,1500);  
   // Demonstrate stationary rope
   PVector P1 = new PVector(20, 30);
@@ -22,12 +22,11 @@ void setup() {
 }
 
 void draw(){
+  background(255);
+  r.getEndpointB().setMovable(true);
+  r = r.move();
+  r.display();
 }
 
 void mouseClicked(){
-  r.getEndpointB().setMovable(true);
-  if(r != null){
-    r = r.move();
-    r.display();
-  }
 }

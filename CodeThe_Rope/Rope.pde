@@ -3,8 +3,7 @@ public class Rope{
   float len, mass;
   int numNodes;
   
-  public Rope(PVector P1, PVector P2, float l, float m, int n) throws Exception{
-    if(l < PVector.dist(P1, P2)) throw new Exception("Invalid length: Too short");
+  public Rope(PVector P1, PVector P2, float l, float m, int n){
     len = l;
     mass = m;
     numNodes = n;
@@ -14,17 +13,15 @@ public class Rope{
     endpointB.setMovable(false);
     // Create Array
     RopeNode currNode = endpointA;
-    float A = calcA(P1, P2, l);
-    float a = (P2.x - P1.x) / (2 * A);
-    float b = (float) ((P1.x + P2.x) / 2 - a * Math.log((1 + (P1.y - P2.y) / l) / (1 - (P1.y - P2.y) / l)) / 2);
-    float c = (float) (-P1.y - a * Math.cosh((P1.x - b) / a));
+    float A = calcA(P1, P2);
+    float[] constants = calcConst(P1, P2, A);
     float dx = (P2.x - P1.x) / n;
     for(int i = 1; i < n; i++){
       PVector p;
       RopeNode node;
       if(i < n - 1){
         if(dx == 0) p = new PVector(P1.x, i * l / n + P1.y);
-        else p = new PVector((float) (P1.x + i * dx), (float) - (a * Math.cosh((P1.x + i * dx - b) / a) + c));
+        else p = new PVector((float) (P1.x + i * dx), (float) - (constants[0] * Math.cosh((P1.x + i * dx - constants[1]) / constants[0]) + constants[2]));
         node = new RopeNode(p, mass/ n);
       }
       else node = endpointB;
@@ -39,12 +36,19 @@ public class Rope{
     }
   }
   
-  private float calcA(PVector P1, PVector P2, float l){
-    double r = Math.sqrt(Math.pow(l, 2) - Math.pow(-P2.y + P1.y, 2)) / (P2.x - P1.x);
+  private float calcA(PVector P1, PVector P2){
+    double r = Math.sqrt(Math.pow(len, 2) - Math.pow(-P2.y + P1.y, 2)) / (P2.x - P1.x);
     float dA = 0.000001;
     float A = 0.0001;
     while(r * (A + dA) > Math.sinh(A + dA))A += dA;
     return A;
+  }
+  
+  private float[] calcConst(PVector P1, PVector P2, float A){
+    float a = (P2.x - P1.x) / (2 * A);
+    float b = (float) ((P1.x + P2.x) / 2 - a * Math.log((1 + (P1.y - P2.y) / len) / (1 - (P1.y - P2.y) / len)) / 2);
+    float c = (float) (-P1.y - a * Math.cosh((P1.x - b) / a));
+    return new float[]{a, b, c};
   }
   
   public RopeNode getEndpointA(){
@@ -104,22 +108,20 @@ public class Rope{
   }
   
   public Rope move(){
-    RopeNode start = null;
+    RopeNode start = null, end = null;
     if(endpointA.getMovable() && !endpointB.getMovable()){
-      start = endpointA;
+      start = endpointB;
+      end = new RopeNode(endpointA);
     }
     if(endpointB.getMovable() && !endpointA.getMovable()){
-      start = endpointB;
+      start = endpointA;
+      end = new RopeNode(endpointB);
     }
     if(start != null && !hasTension()) {
-      PVector original = start.getPosition();
-      start.applyForce(gravity);
-      try{
+      end.applyForce(gravity);
+      float[] constants = calcConst(start.getPosition(), end.getPosition(), calcA(start.getPosition(), end.getPosition()));
+      if(len > PVector.dist(start.getPosition(), new PVector(end.getPosition().x, (float) - (constants[0] * Math.cosh((end.getPosition().x - constants[1]) / constants[0]) + constants[2]))));
         return new Rope(endpointA.getPosition(), endpointB.getPosition(), len, mass, numNodes);
-      } catch(Exception e){
-        start.setPosition(original);
-        return this;
-      }
     }
     return this;
   }
