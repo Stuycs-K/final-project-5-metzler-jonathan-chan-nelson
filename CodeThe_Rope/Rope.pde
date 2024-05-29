@@ -118,10 +118,19 @@ public class Rope{
       end = new RopeNode(endpointB);
     }
     if(start != null && !hasTension()) {
+      PVector potential = new PVector(start.getPosition().x, start.getPosition().y + len);
+      PVector direction = PVector.sub(end.position, potential);
+      direction.normalize();
+      end.applyForce(direction.mult((float) (SPRING_CONSTANT*(SPRING_LENGTH - PVector.dist(end.getPosition(), potential)))));
       end.applyForce(gravity);
+      //print(end.getAcceleration());
       float[] constants = calcConst(start.getPosition(), end.getPosition(), calcA(start.getPosition(), end.getPosition()));
-      if(len > PVector.dist(start.getPosition(), new PVector(end.getPosition().x, (float) - (constants[0] * Math.cosh((end.getPosition().x - constants[1]) / constants[0]) + constants[2]))));
-        return new Rope(endpointA.getPosition(), endpointB.getPosition(), len, mass, numNodes);
+      if(len >= PVector.dist(start.getPosition(), new PVector(end.getPosition().x, (float) - (constants[0] * Math.cosh((end.getPosition().x - constants[1]) / constants[0]) + constants[2])))){
+        Rope r = new Rope(start.getPosition(), end.getPosition(), len, mass, numNodes);
+        r.getEndpointB().setMovable(true);
+        r.getEndpointB().setVelocity(end.getVelocity());
+        return r;
+      }
     }
     return this;
   }

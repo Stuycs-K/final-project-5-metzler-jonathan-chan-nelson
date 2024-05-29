@@ -3,6 +3,7 @@ public class RopeNode{
   private PVector position, velocity, acceleration, tension;
   private float mass;
   private boolean movable = true;
+  private float energyLoss;
   
   public RopeNode(PVector p, PVector v, PVector a, PVector t, float m, boolean movable){
     neighborA = null;
@@ -13,6 +14,7 @@ public class RopeNode{
     tension = t;
     mass = m;
     movable = movable;
+    energyLoss = 1;
   }
   
   public RopeNode(PVector p, float m){
@@ -33,6 +35,10 @@ public class RopeNode{
   
   public void setPosition(PVector p){
     position = p;
+  }
+  
+  public void setVelocity(PVector v){
+    velocity = v;
   }
   
   public void setMovable(boolean m){
@@ -72,8 +78,11 @@ public class RopeNode{
   }
   
   void applyForce(PVector f) {
+    energyLoss *= SPRING_DAMPEN;
+    acceleration.set(0.0, 0.0);
     acceleration.add(PVector.div(f,mass));
     velocity.add(acceleration);
+    velocity.mult(energyLoss);
     position.add(velocity);
   }
 }
