@@ -1,42 +1,33 @@
 Candy c;
 PVector gravity;
+Rope r;
 
 /**
  *IN THIS TAB: MODIFY YOUR SETUP BEFORE YOU EDIT ORB
  */
 
 void setup() {
+  gravity = new PVector(0.0, 0.3);
   size(1500,1500);  
   // Demonstrate stationary rope
   PVector P1 = new PVector(20, 30);
-  PVector P2 = new PVector(180, 320);
+  PVector P2 = new PVector(120, 240);
   float len = PVector.dist(P1, P2);
   try{
-    Rope r = new Rope(P1, P2, len * 2, 4, 60);
+    r = new Rope(P1, P2, len * 2, 4, 500);
     r.display();
   } catch(Exception e){
     print(e);
   }
-  
-
-  //CHANGE THIS
-  //make earth (mass of 500million) place it very far off the bottom of the screen
-  gravity = new PVector(0, 7.5);
-
-
-  //DO NOT CHANGE THIS:
-  c=new Candy(mouseX, mouseY, -1, 0, 20, 10);
 }
 
-void mouseClicked() {
-  setup();
+void draw(){
 }
 
-void draw() {
-  background(255);
-  c.move();
-  c.display();
-  c.applyForce(gravity);
-  fill(0);
-  text("Earth Mode", 20, 20);
+void mouseClicked(){
+  r.getEndpointB().setMovable(true);
+  if(r != null){
+    r = r.move();
+    r.display();
+  }
 }
