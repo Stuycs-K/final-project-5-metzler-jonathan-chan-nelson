@@ -23,6 +23,10 @@ public class RopeNode{
     neighborB = b;
   }
   
+  public void setPosition(PVector p){
+    position = p;
+  }
+  
   public void setMovable(boolean m){
     movable = m;
   }
@@ -49,5 +53,15 @@ public class RopeNode{
   
   public PVector getTension(){
     return tension;
+  }
+  
+  public boolean getMovable(){
+    return movable;
+  }
+  
+  void applyForce(PVector f) {
+    acceleration.add(PVector.div(f,mass));
+    velocity.add(acceleration);
+    position.add(velocity);
   }
 }
