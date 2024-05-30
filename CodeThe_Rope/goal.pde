@@ -7,6 +7,7 @@ public class goal extends node{
     img = loadImage("omNom.png");
   }
   void display(){
+    imageMode(CENTER);
     image(img, position.x, position.y,radius+10,radius+10);
   }
   public float getRadius(){
