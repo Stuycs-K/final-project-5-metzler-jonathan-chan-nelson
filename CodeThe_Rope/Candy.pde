@@ -3,6 +3,7 @@ public class Candy extends node{
   float radius;
   float mass;
   color c;
+  PImage img;
   void move(goal other) {
     if(youWin(other)){}
     else if(youLose()){}
@@ -12,7 +13,13 @@ public class Candy extends node{
       acceleration=new PVector(0, 0);
     }
   }
-
+  
+  void display(){
+    imageMode(CENTER);
+    image(img, position.x, position.y,radius+10,radius+10);
+  }
+  
+  
   void applyForce(PVector f) {
     acceleration.add(PVector.div(f,mass));
   }
@@ -22,6 +29,7 @@ public class Candy extends node{
     acceleration = new PVector(0, 0);
     mass = mass_;
     radius = radius_;
+    img = loadImage("Candy.jpg");
   }
   
   public boolean youLose() {
