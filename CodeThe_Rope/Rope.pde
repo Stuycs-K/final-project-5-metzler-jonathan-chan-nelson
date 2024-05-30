@@ -1,9 +1,9 @@
-public class Rope{
-  private RopeNode endpointA, endpointB, vertexNode;
+public class Rope {
+  private RopeNode endpointA, endpointB;
   float len, mass;
   int numNodes;
-  
-  public Rope(PVector P1, PVector P2, float l, float m, int n){
+
+   public Rope(PVector P1, PVector P2, float l, float m, int n){
     len = l;
     mass = m;
     numNodes = n;
@@ -14,81 +14,75 @@ public class Rope{
     // Create Array
     RopeNode currNode = endpointA;
     float A = calcA(P1, P2);
-    float[] constants = calcConst(P1, P2, A);
+    float a = (P2.x - P1.x) / (2 * A);
+    float b = (float) ((P1.x + P2.x) / 2 - a * Math.log((1 + (P1.y - P2.y) / l) / (1 - (P1.y - P2.y) / l)) / 2);
+    float c = (float) (-P1.y - a * Math.cosh((P1.x - b) / a));
     float dx = (P2.x - P1.x) / n;
     for(int i = 1; i < n; i++){
       PVector p;
-      RopeNode node;
+      if(dx == 0) p = new PVector(P1.x, i * l / n + P1.y);
+      else p = new PVector((float) (P1.x + i * dx), (float) - (a * Math.cosh((P1.x + i * dx - b) / a) + c));
+      RopeNode node = new RopeNode(p, mass/ n);
       if(i < n - 1){
         if(dx == 0) p = new PVector(P1.x, i * l / n + P1.y);
-        else p = new PVector((float) (P1.x + i * dx), (float) - (constants[0] * Math.cosh((P1.x + i * dx - constants[1]) / constants[0]) + constants[2]));
+        else p = new PVector((float) (P1.x + i * dx), (float) - (a * Math.cosh((P1.x + i * dx - b) / a) + c));
         node = new RopeNode(p, mass/ n);
       }
       else node = endpointB;
       currNode.setNext(node);
-      if(i > 1 && currNode.getPrev().getPosition().y < currNode.getPosition().y && currNode.getNext().getPosition().y < currNode.getPosition().y) vertexNode = currNode;
       node.setPrev(currNode);
+      node.setLength(node.getPrev().getLength() + PVector.dist(node.getPrev().getPosition(), node.getPosition()));
       currNode = node;
     }
-    if(vertexNode == null){
-      if(endpointB.getPosition().y <= endpointA.getPosition().y) vertexNode = endpointA;
-      else vertexNode = endpointB;
-    }
+    currNode.setNext(endpointB);
+    endpointB.setPrev(currNode);
   }
-  
-  private float calcA(PVector P1, PVector P2){
+
+  private float calcA(PVector P1, PVector P2) {
     double r = Math.sqrt(Math.pow(len, 2) - Math.pow(-P2.y + P1.y, 2)) / (P2.x - P1.x);
     float dA = 0.000001;
     float A = 0.0001;
-    while(r * (A + dA) > Math.sinh(A + dA))A += dA;
+    while (r * (A + dA) > Math.sinh(A + dA))A += dA;
     return A;
   }
-  
-  private float[] calcConst(PVector P1, PVector P2, float A){
-    float a = (P2.x - P1.x) / (2 * A);
-    float b = (float) ((P1.x + P2.x) / 2 - a * Math.log((1 + (P1.y - P2.y) / len) / (1 - (P1.y - P2.y) / len)) / 2);
-    float c = (float) (-P1.y - a * Math.cosh((P1.x - b) / a));
-    return new float[]{a, b, c};
-  }
-  
-  public RopeNode getEndpointA(){
+
+  public RopeNode getEndpointA() {
     return endpointA;
   }
-  
-  public RopeNode getEndpointB(){
+
+  public RopeNode getEndpointB() {
     return endpointB;
   }
-  
-  public float getLength(){
+
+  public float getLength() {
     return len;
   }
-  
-  public int getNum(){
+
+  public int getNum() {
     return numNodes;
   }
-  
-  public boolean hasTension(){
+
+  public boolean hasTension() {
     return Math.abs(PVector.dist(endpointA.getPosition(), endpointB.getPosition()) - len) < 0.01;
   }
-  
-  public PVector getPosition(int i) throws Exception{
-    if(i >= numNodes || i < 0) throw new Exception("IndexOutOfBounds: " + i);
-    if(i < numNodes / 2) return getPosition(i, endpointA);
-    else return getPosition(i, endpointB);
+
+  public RopeNode getNode(int i) {
+    if (i < numNodes / 2) return getNode(i, endpointA);
+    else return getNode(i, endpointB);
   }
-  
-  private PVector getPosition(int i, RopeNode r){
-    if(i == 0 || i == numNodes - 1) return r.getPosition();
-    if(i < numNodes / 2) return getPosition(i - 1, r.getNext());
-    else return getPosition(i + 1, r.getPrev());
+
+  private RopeNode getNode(int i, RopeNode r) {
+    if (i == 0 || i == numNodes - 1) return r;
+    if (i < numNodes / 2) return getNode(i - 1, r.getNext());
+    else return getNode(i + 1, r.getPrev());
   }
-  
-  public void display(){
+
+  public void display() {
     noStroke();
     fill(color(255, 255, 255));
     RopeNode currNode = endpointA;
     float w = 5;
-    for(int i = 0; i < numNodes - 1; i++){
+    for (int i = 0; i < numNodes - 1; i++) {
       RopeNode node = currNode.getNext();
       PVector currPos = currNode.getPosition();
       PVector pos = node.getPosition();
@@ -104,40 +98,35 @@ public class Rope{
       currNode = node;
     }
     fill(color(0, 0, 0));
-    rect(vertexNode.getPosition().x - 2.5, vertexNode.getPosition().y - 2.5, 5, 5);
   }
-  
-  public Rope move(){
-    RopeNode start = null, end = null;
-    if(endpointA.getMovable() && !endpointB.getMovable()){
-      start = endpointB;
-      end = new RopeNode(endpointA);
-    }
-    if(endpointB.getMovable() && !endpointA.getMovable()){
-      start = endpointA;
-      end = new RopeNode(endpointB);
-    }
-    if(start != null && !hasTension()) {
-      PVector potential = new PVector(start.getPosition().x, start.getPosition().y + len);
-      PVector direction = PVector.sub(end.position, potential);
+
+
+  public void move() {
+    move(endpointA.getNext());
+  }
+
+  public void move(RopeNode r) {
+    if (endpointB.getMovable()) {
+      PVector potential = new PVector(endpointA.getPosition().x, endpointA.getPosition().y + len);
+      PVector direction = PVector.sub(r.position, potential);
       direction.normalize();
-      end.applyForce(direction.mult((float) (SPRING_CONSTANT*(SPRING_LENGTH - PVector.dist(end.getPosition(), potential)))));
-      end.applyForce(gravity);
-      //print(end.getAcceleration());
-      float[] constants = calcConst(start.getPosition(), end.getPosition(), calcA(start.getPosition(), end.getPosition()));
-      if(len >= PVector.dist(start.getPosition(), new PVector(end.getPosition().x, (float) - (constants[0] * Math.cosh((end.getPosition().x - constants[1]) / constants[0]) + constants[2])))){
-        Rope r = new Rope(start.getPosition(), end.getPosition(), len, mass, numNodes);
-        r.getEndpointB().setMovable(true);
-        r.getEndpointB().setVelocity(end.getVelocity());
-        return r;
+      r.applyForce(direction.mult((float) (SPRING_CONSTANT * (1 / r.getLength() - PVector.dist(r.getPosition(), potential)))));
+      r.applyForce(gravity);
+      if (r.getLength() < PVector.dist(endpointA.getPosition(), r.getPosition())) {
+        print("\t");
+        float angle = atan((r.getPosition().x - endpointA.getPosition().x)/(r.getPosition().y - endpointA.getPosition().y));
+        r.setPosition(new PVector(endpointA.getPosition().x + sin(angle) * r.getLength(), endpointA.getPosition().y + cos(angle) * r.getLength()));
+        //r.getPosition().normalize().mult(len);
+      }
+      if (r != endpointB) {
+        move(r.getNext());
       }
     }
-    return this;
   }
-  
-  public void connect(){
+
+  public void connect() {
   }
-  
-  public void disconnect(){
+
+  public void disconnect() {
   }
 }

@@ -1,28 +1,27 @@
 public class RopeNode{
   private RopeNode neighborA, neighborB;
-  private PVector position, velocity, acceleration, tension;
+  private PVector position, velocity, acceleration;
   private float mass;
+  private float len;
   private boolean movable = true;
-  private float energyLoss;
   
-  public RopeNode(PVector p, PVector v, PVector a, PVector t, float m, boolean movable){
+  public RopeNode(PVector p, PVector v, PVector a, float m, float l, boolean movable){
     neighborA = null;
     neighborB = null;
     position = p;
     velocity = v;
     acceleration = a;
-    tension = t;
     mass = m;
     movable = movable;
-    energyLoss = 1;
+    len = l;
   }
   
   public RopeNode(PVector p, float m){
-    this(p, new PVector(0,0), new PVector(0,0), new PVector(0,0), m, true);
+    this(p, new PVector(0,0), new PVector(0,0), m, 0, true);
   }
   
   public RopeNode(RopeNode r){
-    this(r.getPosition(), r.getVelocity(), r.getAcceleration(), r.getTension(), r.getMass(), r.getMovable());
+    this(r.getPosition(), r.getVelocity(), r.getAcceleration(), r.getMass(), r.getLength(), r.getMovable());
   }
   
   public void setPrev(RopeNode a){
@@ -39,6 +38,10 @@ public class RopeNode{
   
   public void setVelocity(PVector v){
     velocity = v;
+  }
+  
+  public void setLength(float l){
+    len = l;
   }
   
   public void setMovable(boolean m){
@@ -65,12 +68,13 @@ public class RopeNode{
     return acceleration;
   }
   
+  
   public float getMass(){
     return mass;
   }
   
-  public PVector getTension(){
-    return tension;
+  public float getLength(){
+    return len;
   }
   
   public boolean getMovable(){
@@ -78,11 +82,11 @@ public class RopeNode{
   }
   
   void applyForce(PVector f) {
-    energyLoss *= SPRING_DAMPEN;
+    
     acceleration.set(0.0, 0.0);
     acceleration.add(PVector.div(f,mass));
+    velocity.mult((float) SPRING_DAMPEN);
     velocity.add(acceleration);
-    velocity.mult(energyLoss);
     position.add(velocity);
   }
 }

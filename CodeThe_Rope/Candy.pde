@@ -24,7 +24,7 @@ public class Candy extends node{
   
   public void youLose() {
     if (position.x < radius)
-          text("You Lose", 500, 500);
+      text("You Lose", 500, 500);
     if (position.x > width-radius)
       text("You Lose", 500, 500);
     if (position.y < radius)
