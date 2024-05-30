@@ -2,6 +2,7 @@ public class Rope {
   private RopeNode endpointA, endpointB;
   float len, mass;
   int numNodes;
+  color col;
 
    public Rope(PVector P1, PVector P2, float l, float m, int n){
     len = l;
@@ -76,10 +77,14 @@ public class Rope {
     if (i < numNodes / 2) return getNode(i - 1, r.getNext());
     else return getNode(i + 1, r.getPrev());
   }
+  
+  public void setColor(color c){
+    col = c;
+  }
 
   public void display() {
     noStroke();
-    fill(color(255, 255, 255));
+    fill(col);
     RopeNode currNode = endpointA;
     float w = 5;
     for (int i = 0; i < numNodes - 1; i++) {
@@ -97,7 +102,6 @@ public class Rope {
       translate(-x, -y);
       currNode = node;
     }
-    fill(color(0, 0, 0));
   }
 
 
@@ -108,15 +112,15 @@ public class Rope {
   public void move(RopeNode r) {
     if (endpointB.getMovable()) {
       PVector potential = new PVector(endpointA.getPosition().x, endpointA.getPosition().y + len);
+      //PVector potential = new PVector(r.getPrev().getPosition().x, r.getPrev().getPosition().y + r.getLength());
       PVector direction = PVector.sub(r.position, potential);
       direction.normalize();
       r.applyForce(direction.mult((float) (SPRING_CONSTANT * (1 / r.getLength() - PVector.dist(r.getPosition(), potential)))));
       r.applyForce(gravity);
       if (r.getLength() < PVector.dist(endpointA.getPosition(), r.getPosition())) {
-        print("\t");
         float angle = atan((r.getPosition().x - endpointA.getPosition().x)/(r.getPosition().y - endpointA.getPosition().y));
+        //r.applyForce(new PVector((float) 0.9 * -cos(angle) , (float) 0.9 * sin(angle)));
         r.setPosition(new PVector(endpointA.getPosition().x + sin(angle) * r.getLength(), endpointA.getPosition().y + cos(angle) * r.getLength()));
-        //r.getPosition().normalize().mult(len);
       }
       if (r != endpointB) {
         move(r.getNext());
