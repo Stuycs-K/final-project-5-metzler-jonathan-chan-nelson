@@ -49,6 +49,10 @@ public class Candy extends node{
       text("You Lose", 1000, 500);
       return true;
     }
+    
+    
+    
+    
       return false;
   }
   
