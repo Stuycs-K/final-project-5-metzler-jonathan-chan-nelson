@@ -1,14 +1,10 @@
 public class spike extends node{
   float radius;
   PImage img;
-  public goal (float x, float y, float len, float orientation){
-    super(x,y,createShape(RECT, 0, 0, 50, len),color(0,255,0));
-    radius=radius_;
+  public spike (float x, float y){
+    super(x,y,createShape(ELLIPSE, 0, 0, 20, 20),color(100,100,100));
+    radius=20;
     img = loadImage("omNom.png");
-  }
-  void display(){
-    imageMode(CENTER);
-    image(img, position.x, position.y,radius+10,radius+10);
   }
   public float getRadius(){
     return radius;
