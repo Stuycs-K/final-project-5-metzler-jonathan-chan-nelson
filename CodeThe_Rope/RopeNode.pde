@@ -82,7 +82,6 @@ public class RopeNode{
   }
   
   void applyForce(PVector f) {
-    
     acceleration.set(0.0, 0.0);
     acceleration.add(PVector.div(f,mass));
     velocity.mult((float) SPRING_DAMPEN);

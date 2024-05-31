@@ -5,6 +5,11 @@ public class Rope {
   color col;
 
    public Rope(PVector P1, PVector P2, float l, float m, int n){
+    if(P2.x < P1.x){
+      PVector temp = P1;
+      P1 = P2;
+      P2 = temp;
+    }
     len = l;
     mass = m;
     numNodes = n;
@@ -21,8 +26,7 @@ public class Rope {
     float dx = (P2.x - P1.x) / n;
     for(int i = 1; i < n; i++){
       PVector p;
-      if(dx == 0) p = new PVector(P1.x, i * l / n + P1.y);
-      else p = new PVector((float) (P1.x + i * dx), (float) - (a * Math.cosh((P1.x + i * dx - b) / a) + c));
+      p = new PVector((float) (P1.x + i * dx), (float) - (a * Math.cosh((P1.x + i * dx - b) / a) + c));
       RopeNode node = new RopeNode(p, mass/ n);
       if(i < n - 1){
         if(dx == 0) p = new PVector(P1.x, i * l / n + P1.y);
@@ -108,25 +112,58 @@ public class Rope {
   public void move() {
     move(endpointA.getNext());
   }
-
+  
   public void move(RopeNode r) {
     if (endpointB.getMovable()) {
-      PVector potential = new PVector(endpointA.getPosition().x, endpointA.getPosition().y + len);
+      float angle = atan((r.getPosition().y - endpointA.getPosition().y) / (r.getPosition().x - endpointA.getPosition().x));
+      PVector potential = new PVector(endpointA.getPosition().x, endpointA.getPosition().y + r.getLength());
       //PVector potential = new PVector(r.getPrev().getPosition().x, r.getPrev().getPosition().y + r.getLength());
       PVector direction = PVector.sub(r.position, potential);
+      //PVector tangent = new PVector(sin(angle), -cos(angle));
+      //direction = tangent;
       direction.normalize();
       r.applyForce(direction.mult((float) (SPRING_CONSTANT * (1 / r.getLength() - PVector.dist(r.getPosition(), potential)))));
-      r.applyForce(gravity);
+      //r.applyForce(gravity);
+      print(r.getLength() + ", ");
+      print(PVector.dist(endpointA.getPosition(), r.getPosition()));
       if (r.getLength() < PVector.dist(endpointA.getPosition(), r.getPosition())) {
-        float angle = atan((r.getPosition().x - endpointA.getPosition().x)/(r.getPosition().y - endpointA.getPosition().y));
+        println();
+        angle = atan((r.getPosition().y - endpointA.getPosition().y) / (r.getPosition().x - endpointA.getPosition().x));
         //r.applyForce(new PVector((float) 0.9 * -cos(angle) , (float) 0.9 * sin(angle)));
-        r.setPosition(new PVector(endpointA.getPosition().x + sin(angle) * r.getLength(), endpointA.getPosition().y + cos(angle) * r.getLength()));
+        if (r.getPosition().x > endpointA.getPosition().x) r.setPosition(new PVector(endpointA.getPosition().x + cos(angle) * r.getLength(), endpointA.getPosition().y + sin(angle) * r.getLength()));
+        else if(r.getPosition().x > endpointA.getPosition().x) r.setPosition(new PVector(endpointA.getPosition().x - cos(angle) * r.getLength(), endpointA.getPosition().y - sin(angle) * r.getLength()));
+        else r.setPosition(new PVector(endpointA.getPosition().x, endpointA.getPosition().x + r.getLength()));
       }
       if (r != endpointB) {
         move(r.getNext());
       }
     }
   }
+/*
+  public void move(RopeNode r) {
+    if (endpointB.getMovable()) {
+      PVector potential = new PVector(endpointA.getPosition().x, endpointA.getPosition().y + len);
+      PVector direction = PVector.sub(r.position, potential);
+      PVector v = r.getVelocity();
+      direction.normalize();
+      r.applyForce(direction.mult((float) (SPRING_CONSTANT * (1 / r.getLength() - PVector.dist(r.getPosition(), potential)))));
+      r.applyForce(gravity);
+      if (r.getLength() - r.getPrev().getLength() < PVector.dist(r.getPrev().getPosition(), r.getPosition())) {
+        float angle = atan((r.getPosition().y - r.getPrev().getPosition().y) / (r.getPrev().getPosition().x - endpointA.getPosition().x));
+        if (r.getPosition().x >= r.getPrev().getPosition().x) r.setPosition(new PVector(r.getPrev().getPosition().x + cos(angle) * (r.getLength() - r.getPrev().getLength()), r.getPrev().getPosition().y + sin(angle) * (r.getLength() - r.getPrev().getLength())));
+        if (r.getPosition().x <= r.getPrev().getPosition().x) r.setPosition(new PVector(r.getPrev().getPosition().x - cos(angle) * (r.getLength() - r.getPrev().getLength()), r.getPrev().getPosition().y - sin(angle) * (r.getLength() - r.getPrev().getLength())));
+        print(r.getPosition());
+        //r.applyForce(new PVector((float) 0.9 * -cos(angle) , (float) 0.9 * sin(angle)));
+        //if(r.getVelocity().x > 0) r.applyForce(new PVector((float) 2 * -cos(angle), (float) 2 * sin(angle)));
+        //else r.applyForce(new PVector((float) 2 * sin(angle), (float) 2 * cos(angle)));
+      }
+      if (r != endpointB) {
+        move(r.getNext());
+      }
+    }
+  }
+  */
+  
 
   public void connect() {
   }
