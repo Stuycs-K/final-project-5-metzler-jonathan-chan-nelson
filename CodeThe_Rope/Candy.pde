@@ -4,14 +4,10 @@ public class Candy extends node{
   float mass;
   color c;
   PImage img;
-  void move(goal other) {
-    if(youWin(other)){}
-    else if(youLose()){}
-    else{
+  void move() {
       velocity.add(acceleration);
       position.add(velocity);
       acceleration=new PVector(0, 0);
-    }
   }
   
   void display(){
@@ -32,35 +28,18 @@ public class Candy extends node{
     img = loadImage("Candy.jpg");
   }
   
-  public boolean youLose() {
+  public boolean offTheMap() {
     if (position.x < radius){
-      text("You Lose", 1000, 500);
       return true;
     }
     if (position.x > width-radius){
-      text("You Lose", 1000, 500);
       return true;
     }
     if (position.y < radius){
-      text("You Lose", 1000, 500);
       return true;
     }
     if (position.y > height-radius){
-      text("You Lose", 1000, 500);
       return true;
     }
-    
-    
-    
-    
       return false;
   }
-  
-  public boolean youWin(goal other) {
-    if(this.calcDistance(other)<(other.getRadius()+this.radius)/2){
-      text("You Win", 1000, 500);
-      return true;
-    }
-    return false;
-  }
-}
