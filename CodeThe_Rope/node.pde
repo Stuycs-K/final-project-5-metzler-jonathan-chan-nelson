@@ -1,4 +1,4 @@
-public class node{
+  public class node{
   PVector position;
   PShape s;
   
