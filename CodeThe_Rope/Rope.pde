@@ -15,27 +15,29 @@ public class Rope {
     endpointA.setMovable(false);
     endpointB.setMovable(false);
     // Create Array
-    RopeNode currNode = endpointA;
     float A = calcA(P1, new PVector(p2X, P2.y));
     float a = (p2X - P1.x) / (2 * A);
     float b = (float) ((P1.x + p2X) / 2 - a * Math.log((1 + (P1.y - P2.y) / l) / (1 - (P1.y - P2.y) / l)) / 2);
     float c = (float) (-P1.y - a * Math.cosh((P1.x - b) / a));
-    float dx = (p2X - P1.x) / (100 * n);
+    float dx = (p2X - P1.x) / (1000 * n);
     int i = 1;
-    float errorBound = 0.2;
-    for(int j = 1; j <= 100 * n && i < n - 1; j++){
-      PVector p = new PVector((float) (P1.x + j * dx), (float) - (a * Math.cosh((P1.x + j * dx - b) / a) + c));
-      if(P2.x < P1.x) p = new PVector((float) -(P1.x + j * dx), (float) - (a * Math.cosh((P1.x + j * dx - b) / a) + c));
-      if(Math.abs(PVector.sub(p, currNode.getPosition()).mag() - l / (n - 1)) < 0.2){
-          println("p");
-          p.add(new PVector(p.x, p.y).normalize().mult(0.2));
-          RopeNode node = new RopeNode(this, p, mass/ n);
-          currNode.setNext(node);
-          node.setPrev(currNode);
-          node.setLength(node.getPrev().getLength() + PVector.dist(node.getPrev().getPosition(), node.getPosition()));
-          currNode = node;
-          i++;
-        }
+    RopeNode currNode = endpointA;
+    for(float errorBound = 1 / (n * log(n)); i != n - 1; errorBound *= 2){
+      i = 1;
+      currNode = endpointA;
+      for(int j = 1; j <= 1000 * n && i < n - 1; j++){
+        PVector p = new PVector((float) (P1.x + j * dx), (float) - (a * Math.cosh((P1.x + j * dx - b) / a) + c));
+        if(P2.x < P1.x) p = new PVector((float) (P1.x - j * dx), (float) - (a * Math.cosh((P1.x + j * dx - b) / a) + c));
+        if(Math.abs(PVector.sub(p, currNode.getPosition()).mag() - l / (n - 1)) < errorBound){
+            p.add(new PVector(p.x, p.y).normalize().mult(errorBound));
+            RopeNode node = new RopeNode(this, p, mass/ n);
+            currNode.setNext(node);
+            node.setPrev(currNode);
+            node.setLength(node.getPrev().getLength() + PVector.dist(node.getPrev().getPosition(), node.getPosition()));
+            currNode = node;
+            i++;
+          }
+      }
     }
     currNode.setNext(endpointB);
     endpointB.setPrev(currNode);
