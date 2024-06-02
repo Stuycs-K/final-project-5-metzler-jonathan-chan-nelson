@@ -10,7 +10,7 @@ public class map{
       g=new goal(500,500,50);
       c=new Candy(100, 100, -1, 0, 10, 40);
       spikes=new ArrayList<spike>();
-      spikes.add(spike(500,100));
+      spikes.add(new spike(80,500));
       ropes=new ArrayList<Rope>();
     }
     else{
