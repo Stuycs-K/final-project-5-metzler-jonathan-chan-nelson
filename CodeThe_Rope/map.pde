@@ -1,4 +1,5 @@
 public class map{
+  PVector gravity;
   ArrayList<spike> spikes;
   ArrayList<Rope> ropes;
   goal g;
@@ -8,11 +9,15 @@ public class map{
     if(index==1){
       g=new goal(500,500,50);
       c=new Candy(100, 100, -1, 0, 10, 40);
+      spikes=new ArrayList<spike>();
+      spikes.add(spike(500,100));
+      ropes=new ArrayList<Rope>();
     }
     else{
       c=new Candy(100, 100, -1, 0, 10, 40);
       g=new goal(100,100,50);
     }
+    gravity = new PVector(0, 6);
   }
   public void display(){
     g.display();
@@ -33,6 +38,7 @@ public class map{
     }
     else{
       c.move();
+      c.applyForce(gravity);
     }
   }
   
@@ -43,7 +49,8 @@ public class map{
     }
     return false;
   }
-   public boolean youLose() {
+  
+  public boolean youLose() {
     if(c.offTheMap()){
       return true;
     }
@@ -55,4 +62,5 @@ public class map{
     }
     return false;
   }
+}
   

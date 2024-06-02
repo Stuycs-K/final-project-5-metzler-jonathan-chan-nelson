@@ -43,3 +43,4 @@ public class Candy extends node{
     }
       return false;
   }
+}
