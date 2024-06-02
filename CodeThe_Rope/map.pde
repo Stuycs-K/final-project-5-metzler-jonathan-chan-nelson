@@ -42,10 +42,13 @@ public class map{
     }
   }
   public void mouseMovement(int startX,int startY,int endX,int endY){
-     if(doesIntersect(startX,startY,endX,endY,80,500,20)){
-       text("THIS WORKS", 750,750);
+   for(int i=0;i<spikes.size();i++){
+     spike s=spikes.get(i);
+     if(doesIntersect(startX,startY,endX,endY,s.position.x,s.position.y,s.getRadius())){
+       spikes.remove(i);
+       //text("THIS WORKS", 750,750);
      }
-       
+   }
   }
   public boolean doesIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double radius) {
         // Calculate the quadratic equation coefficients

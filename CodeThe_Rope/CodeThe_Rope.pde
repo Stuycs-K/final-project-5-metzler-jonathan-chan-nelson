@@ -17,7 +17,7 @@ void setup() {
   m=new map(1);
 }
 void draw() {
-  //background(255);
+  background(255);
   m.display();
   m.move();
 }
