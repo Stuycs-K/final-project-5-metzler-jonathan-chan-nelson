@@ -27,7 +27,6 @@ public class Candy extends node{
     radius = radius_;
     img = loadImage("Candy.jpg");
   }
-  
   public boolean offTheMap() {
     if (position.x < radius){
       return true;
