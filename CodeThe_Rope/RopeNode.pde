@@ -91,8 +91,11 @@ public class RopeNode{
     return movable;
   }
   
-  void applyForce(PVector f) {
-    velocity.add(PVector.div(f, mass));
-    position.add(velocity);
+  public void applyForce(PVector f) {
+  float dt = 0.09;
+  acceleration.set(PVector.div(f, mass));
+  velocity.mult(ENERGY_LOSS);
+  velocity.add(PVector.mult(acceleration, dt));
+  position.add(PVector.mult(velocity, dt));
   }
 }
