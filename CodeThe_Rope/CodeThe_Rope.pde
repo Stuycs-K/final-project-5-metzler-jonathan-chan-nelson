@@ -6,7 +6,7 @@ float mouseEndx;
 float mouseEndy;
 
 static double SPRING_STIFFNESS = 10;
-static double ENERGY_LOSS = 1;
+static double ENERGY_LOSS = 0.99995;
 PVectorD staticP = new PVectorD(0, 0);
 
 //For Demo

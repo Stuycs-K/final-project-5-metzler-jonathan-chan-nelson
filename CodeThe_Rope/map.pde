@@ -9,7 +9,7 @@ public class Map {
       g=new goal(500, 500, 50);
       c=new Candy(500, 100, 0, 0, 10, 40);
       spikes=new ArrayList<spike>();
-      spikes.add(new spike(80, 500));
+      spikes.add(new spike(80, 750));
       ropes=new ArrayList<Rope>();
       PVectorD P1 = new PVectorD(400, 200);
       PVectorD P2 = new PVectorD(600, 250);
