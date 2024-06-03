@@ -47,6 +47,10 @@ public class RopeNode{
     springForce = new PVectorD(s);;
   }
   
+  public void setMass(double m){
+    mass = m;
+  }
+  
   public void setLength(double l){
     len = l;
   }
@@ -98,7 +102,7 @@ public class RopeNode{
   public void applyForce(PVectorD f) {
     if(movable){
       double dt = 0.01;
-      //velocity.mult(ENERGY_LOSS);
+      velocity.mult(ENERGY_LOSS);
       velocity.add(staticP.mult(f, dt / mass));
       position.add(staticP.mult(velocity, dt));
     }

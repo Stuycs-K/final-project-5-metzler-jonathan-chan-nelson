@@ -42,6 +42,45 @@ public class Rope {
       }
     }
   }
+  
+  public Rope(RopeNode eA, RopeNode eB, double l, double m, int n){
+    len = l;
+    mass = m;
+    numNodes = n;
+    endpointA = eA;
+    endpointB = eB;
+    endpointA.setMovable(false);
+    endpointB.setMovable(false);
+    double p2X = eB.getPosition().x;
+    if(p2X < eA.getPosition().x) p2X = 2 * eA.getPosition().x - eB.getPosition().x;
+    // Create Array
+    double A = calcA(P1, new PVectorD(p2X, P2.y));
+    double a = (p2X - P1.x) / (2 * A);
+    double b =  ((P1.x + p2X) / 2 - a * Math.log((1 + (P1.y - P2.y) / l) / (1 - (P1.y - P2.y) / l)) / 2);
+    double c =  (-P1.y - a * Math.cosh((P1.x - b) / a));
+    double dx = (p2X - P1.x) / (100 * n);
+    int i = 1;
+    RopeNode currNode = endpointA;
+    for(double errorBound = 0; i != n; errorBound += 0.0001){
+      i = 1;
+      currNode = endpointA;
+      for(int j = 1; j <= 100 * n && i < n; j++){
+        PVectorD p = new PVectorD( (P1.x + j * dx),  - (a * Math.cosh((P1.x + j * dx - b) / a) + c));
+        if(P2.x < P1.x) p = new PVectorD( (P1.x - j * dx),  - (a * Math.cosh((P1.x + j * dx - b) / a) + c));
+        if(dx == 0) p = new PVectorD(P1.x, P1.y + i * (P2.y - P1.y) / (n - 1));
+        if(Math.abs(staticP.sub(p, currNode.getPosition()).mag() - l / (n - 1)) < errorBound || dx == 0 || n == n-1){
+            p.add(new PVectorD(p.x, p.y).normalize().mult(errorBound));
+            RopeNode node = new RopeNode(this, p, mass/ n);
+            if(i == n - 1)node = endpointB;
+            currNode.setNext(node);
+            node.setPrev(currNode);
+            node.setLength(node.getPrev().getLength() + staticP.dist(node.getPrev().getPosition(), node.getPosition()));
+            currNode = node;
+            i++;
+          }
+      }
+    }
+  }
 
   private double calcA(PVectorD P1, PVectorD P2) {
     double r = Math.sqrt(Math.pow(len, 2) - Math.pow(-P2.y + P1.y, 2)) / (P2.x - P1.x);
@@ -108,12 +147,6 @@ public class Rope {
       currNode = node;
     }
   }
-
-
-  private int signum(double f) {
-    if (f < 0) return -1;
-    return 1;
-  }
   
    private PVectorD calcForce(RopeNode r) {
     PVectorD force = new PVectorD(0, 0);
@@ -126,10 +159,8 @@ public class Rope {
   }
  
   public void move() {
-    if(endpointB.getMovable()){
-      for(int i = 0; i < 20; i++){
-        move(endpointA.getNext());
-      }
+    for(int i = 0; i < 20; i++){
+       move(endpointA.getNext());
     }
   }
   
@@ -142,6 +173,7 @@ public class Rope {
         force = springForce.sub(r.getNext().getSpringForce()).add(staticP.mult(gravity, r.getMass()));
       } 
       else force = springForce.add(staticP.mult(gravity, r.getMass()));
+      if(!endpointB.getMovable()) force.add(staticP.mult(r.getVelocity(), -0.999));
       r.applyForce(force);
   }
 
