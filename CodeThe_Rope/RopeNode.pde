@@ -1,26 +1,26 @@
 public class RopeNode{
   private RopeNode neighborA, neighborB;
-  private PVector position, velocity, acceleration, force;
+  private PVectorD position, velocity, acceleration, springForce;
   private Rope rope;
-  private float mass;
-  private float len;
+  private double mass;
+  private double len;
   private boolean movable = true;
   
-  public RopeNode(Rope r, PVector p, PVector v, PVector a, float m, float l, boolean movable){
+  public RopeNode(Rope r, PVectorD p, PVectorD v, PVectorD a, double m, double l, boolean movable){
     neighborA = null;
     neighborB = null;
     rope = r;
     position = p;
     velocity = v;
     acceleration = a;
-    force = new PVector(0, 0);
+    springForce = new PVectorD(0, 0);
     mass = m;
     movable = movable;
     len = l;
   }
   
-  public RopeNode(Rope r, PVector p, float m){
-    this(r, p, new PVector(0,0), new PVector(0,0), m, 0, true);
+  public RopeNode(Rope r, PVectorD p, double m){
+    this(r, p, new PVectorD(0,0), new PVectorD(0,0), m, 0, true);
   }
   
   public RopeNode(RopeNode r){
@@ -35,15 +35,19 @@ public class RopeNode{
     neighborB = b;
   }
   
-  public void setPosition(PVector p){
-    position = p;
+  public void setPosition(PVectorD p){
+    position = new PVectorD(p);;
   }
   
-  public void setVelocity(PVector v){
-    velocity = v;
+  public void setVelocity(PVectorD v){
+    velocity = new PVectorD(v);
   }
   
-  public void setLength(float l){
+  public void setSpringForce(PVectorD s){
+    springForce = new PVectorD(s);;
+  }
+  
+  public void setLength(double l){
     len = l;
   }
   
@@ -63,27 +67,27 @@ public class RopeNode{
     return r;
   }
   
-  public PVector getPosition(){
+  public PVectorD getPosition(){
     return position;
   }
   
-  public PVector getVelocity(){
+  public PVectorD getVelocity(){
     return velocity;
   }
   
-  public PVector getAcceleration(){
+  public PVectorD getAcceleration(){
     return acceleration;
   }
   
-  public PVector getForce(){
-    return force;
+  public PVectorD getSpringForce(){
+    return springForce;
   }
   
-  public float getMass(){
+  public double getMass(){
     return mass;
   }
   
-  public float getLength(){
+  public double getLength(){
     return len;
   }
   
@@ -91,11 +95,12 @@ public class RopeNode{
     return movable;
   }
   
-  public void applyForce(PVector f) {
-  float dt = 0.09;
-  acceleration.set(PVector.div(f, mass));
-  velocity.mult(ENERGY_LOSS);
-  velocity.add(PVector.mult(acceleration, dt));
-  position.add(PVector.mult(velocity, dt));
+  public void applyForce(PVectorD f) {
+    if(movable){
+      double dt = 0.01;
+      //velocity.mult(ENERGY_LOSS);
+      velocity.add(staticP.mult(f, dt / mass));
+      position.add(staticP.mult(velocity, dt));
+    }
   }
 }
