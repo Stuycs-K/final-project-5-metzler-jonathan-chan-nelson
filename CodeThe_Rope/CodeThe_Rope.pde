@@ -2,8 +2,6 @@ Map m;
 PVectorD gravity = new PVectorD(0, 3);
 float mouseStartx;
 float mouseStarty;
-float mouseEndx;
-float mouseEndy;
 
 static double SPRING_STIFFNESS = 10;
 static double ENERGY_LOSS = 0.99995;
@@ -36,8 +34,6 @@ void setup() {
   }
   void mouseReleased() {
     m.mouseMovement(mouseStartx, mouseStarty, mouseX, mouseY);
-    mouseEndx=mouseX;
-    mouseEndy=mouseY;
   }
   
   void keyPressed() {
