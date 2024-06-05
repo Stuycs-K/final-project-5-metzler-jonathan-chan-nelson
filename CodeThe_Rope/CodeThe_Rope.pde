@@ -1,19 +1,20 @@
 Map m;
-PVectorD gravity = new PVectorD(0, 3);
+PVectorD gravity = new PVectorD(0, 1);
 float mouseStartx;
 float mouseStarty;
 
 static double SPRING_STIFFNESS = 10;
-static double ENERGY_LOSS = 0.99995;
+static double ENERGY_LOSS = 1;
 PVectorD staticP = new PVectorD(0, 0);
 
 //For Demo
 boolean stroke;
-PVectorD demoP1 = new PVectorD(400, 50);
-PVectorD demoP2 = new PVectorD(200, 350);
+PVectorD demoP1 = new PVectorD(200, 50);
+PVectorD demoP2 = new PVectorD(500, 100);
+PVectorD demoP3 = new PVectorD(600, 50);
 double demoLFactor = 1;
 double demoMass = 5; 
-int demoNumNodes = 10;
+int demoNumNodes = 4;
 
 
 void setup() {
@@ -24,6 +25,7 @@ void setup() {
 
   void draw() {
     background(255);
+    rect(500, 100, 50, 50);
     m.move();
     m.display();
   }

@@ -7,13 +7,13 @@ public class Map {
   public Map(int index) {
     if (index==1) {
       g=new goal(500, 500, 50);
-      c=new Candy(500, 100, 0, 0, 10, 40);
       spikes=new ArrayList<spike>();
       spikes.add(new spike(80, 750));
       ropes=new ArrayList<Rope>();
-      PVectorD P1 = new PVectorD(400, 200);
-      PVectorD P2 = new PVectorD(600, 250);
       ropes.add(new Rope(this, demoP1, demoP2, demoLFactor, demoMass, demoNumNodes));
+      ropes.add(new Rope(this, demoP3, demoP2, 1.8, demoMass, demoNumNodes));
+      c=new Candy(0, 0, 0, 0, 10, 40);
+      c.link(ropes.get(1).getEndpointB());
       c.link(ropes.get(0).getEndpointB());
     } else {
       c=new Candy(100, 100, 0, -1, 10, 40);
@@ -35,18 +35,19 @@ public class Map {
   public void move() {
     for (int i=0; i<ropes.size(); i++) {
       ropes.get(i).move();
+      c.move();
     }
     if (youWin()) {
       text("you win", 100, 100);
     } else if (youLose()) {
       text("you lose", 100, 100);
-    } else {  
-      c.applyForce(gravity);
     }
   }
   
   public void start() {
-    ropes.get(0).getEndpointB().setMovable(true);
+    for(int i = 0; i < ropes.size(); i++){
+      ropes.get(i).getEndpointB().setMovable(true);
+    }
     start = true;
   }
   

@@ -4,27 +4,32 @@ public class Candy extends node {
   float mass;
   color c;
   PImage img;
-  RopeNode link;
+  ArrayList<RopeNode> links = new ArrayList<RopeNode> (5);
 
   void display() {
     imageMode(CENTER);
-    if(link != null){
-      position.x = link.getPosition().x;
-      position.y = link.getPosition().y;
-    }
     image(img, (float) position.x, (float) position.y, radius + 10, radius + 10);
   }
   
+  void move(){
+    position = new PVectorD(0, 0);
+    for(RopeNode r : links){
+      position.add(staticP.div(r.getPosition(), links.size()));
+    }
+    for(RopeNode r : links){
+      r.setPosition(position);
+    }
+  }
   
   void applyForce(PVectorD f) {
-    if(link == null){
+    if(links.size() > 0){
       double dt = 0.01;
       velocity.add(staticP.mult(f, dt / mass));
       position.add(staticP.mult(velocity, dt));
     }
   }
   
-  public Candy(float x, float y, float xSpeed, float ySpeed, float mass_, float radius_ ) {
+  public Candy(double x, double y, float xSpeed, float ySpeed, float mass_, float radius_ ) {
     super(x, y, createShape(ELLIPSE, 0, 0, radius_, radius_), color(255, 0, 0));
     velocity = new PVectorD(xSpeed, ySpeed);
     acceleration = new PVectorD(0, 0);
@@ -50,20 +55,15 @@ public class Candy extends node {
   }
   
   public void link(RopeNode r){
-    if(link == null){
-      link = r;
-      r.setMass(r.getMass() + mass);
-    }
+    links.add(r);
+    r.setMass(r.getMass() + mass);
   }
   
-  public void unlink(){
-    if(link != null){
-      link.setMass(link.getMass() - mass);
-      link = null;
-    }
+  public void unlink(RopeNode r){
+    for(int i = 0; i < links.size(); i++) r.setMovable(false);
   }
   
-  public RopeNode getLink(){
-    return link;
+  public RopeNode getLink(int n){
+    return links.get(n);
   }
 }

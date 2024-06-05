@@ -5,6 +5,12 @@ public class Rope {
   color col;
   Map map;
 
+  private int sign(double d){
+    if(d < 0) return -1;
+    if(d > 0) return 1;
+    return 0;
+  }
+  
   public Rope(Map m, PVectorD P1, PVectorD P2, double lFactor, double ms, int n) {
     map = m;
     double p2X = P2.x;

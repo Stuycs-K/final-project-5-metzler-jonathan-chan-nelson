@@ -3,7 +3,7 @@ public class node {
   PShape s;
   color c;
 
-  public node (float x, float y, PShape shape_, color c_) {
+  public node (double x, double y, PShape shape_, color c_) {
     position = new PVectorD(x, y);
     s = shape_;
     c=c_;
