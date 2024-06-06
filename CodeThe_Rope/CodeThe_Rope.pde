@@ -1,4 +1,6 @@
 Map m;
+Menu menu;
+PImage background;
 PVectorD gravity = new PVectorD(0, 3);
 float mouseStartx;
 float mouseStarty;
@@ -17,15 +19,20 @@ int demoNumNodes = 10;
 
 
 void setup() {
+  background = loadImage("codeTheRope.jpg");
+  background.resize(1500,900);
   size(1500, 900);
   frameRate(1000);
+  menu= new Menu(6);
+  menu.display();
   m=new Map(1);
   }
 
   void draw() {
-    background(255);
-    m.move();
-    m.display();
+    background(background);
+    menu.display();
+    //m.move();
+    //m.display();
   }
 
   void mousePressed() {
