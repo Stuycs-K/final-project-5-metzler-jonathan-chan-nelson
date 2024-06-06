@@ -17,6 +17,10 @@ info
 
 Basic Rope Class Methods Finished: Constructor and display() 
 
-### date y
+### June 3
 
-info
+Rope Swinging and Cutting Finished
+
+### June 4
+
+Multiple Ropes Connected to Candy Done(Buggy)
