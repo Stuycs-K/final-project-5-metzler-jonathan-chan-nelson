@@ -4,6 +4,7 @@ PImage background;
 PVectorD gravity = new PVectorD(0, 3);
 float mouseStartx;
 float mouseStarty;
+int level;
 
 static double SPRING_STIFFNESS = 10;
 static double ENERGY_LOSS = 0.99995;
@@ -25,16 +26,31 @@ void setup() {
   frameRate(1000);
   menu= new Menu(6);
   menu.display();
+  level=0;
   m=new Map(1);
   }
 
   void draw() {
     background(background);
-    menu.display();
-    //m.move();
-    //m.display();
+    if(level==0){
+      menu.display();
+    }
+    else{
+      m.move();
+      m.display();
+    }
+    text(level,50,50);
   }
-
+  void mouseClicked(){
+    if(level==0){
+      level=menu.clicking(mouseX,mouseY);
+    }
+    else{
+      level=menu.clicking(mouseX,mouseY);
+    }
+    m= new Map(level);
+  }
+  
   void mousePressed() {
     mouseStartx=mouseX;
     mouseStarty=mouseY;
@@ -42,6 +58,7 @@ void setup() {
   void mouseReleased() {
     m.mouseMovement(mouseStartx, mouseStarty, mouseX, mouseY);
   }
+  
   
   void keyPressed() {
     if (key == ' '){

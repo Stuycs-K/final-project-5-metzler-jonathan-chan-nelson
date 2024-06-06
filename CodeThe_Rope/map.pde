@@ -18,6 +18,8 @@ public class Map {
     } else {
       c=new Candy(100, 100, 0, -1, 10, 40);
       g=new goal(100, 100, 50);
+      spikes=new ArrayList<spike>();
+      ropes=new ArrayList<Rope>();
     }
   }
   
