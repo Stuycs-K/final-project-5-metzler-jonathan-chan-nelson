@@ -144,7 +144,6 @@ public class Rope {
       float x = (float) staticP.add(currPos, pos).x / 2;
       float y = (float) staticP.add(currPos, pos).y / 2;
       float l = (float) staticP.dist(currPos, pos);
-      fill(color(255, 100, 200));
       translate(x, y);
       rotate(angle);
       rect(- l / 2, - (float) wid / 2, l, (float) wid);
@@ -156,6 +155,10 @@ public class Rope {
 
   public void cut(float startX, float startY, float endX, float endY) {
     cut(endpointA, startX, startY, endX, endY, 1);
+  }
+  
+  private boolean between(double v1, double v2, double v3) {
+    return v1 <= v3 && v3 <= v2 || v2 <= v3 && v3 <= v1;
   }
 
   private void cut(RopeNode r, float startX, float startY, float endX, float endY, int i) {
@@ -173,11 +176,25 @@ public class Rope {
       end.set(new PVector(-end.x * sin(-angle) + end.y * cos(-angle), -end.x * cos(-angle) - end.y * sin(-angle)));
       start.add(center);
       end.add(center);
-      boolean passLeft = start.x < center.x - wid / 2 && end.x > center.x - wid / 2 || start.x > center.x - wid / 2 && end.x < center.x - wid / 2;
-      boolean passRight = start.x < center.x + wid / 2 && end.x > center.x + wid / 2 || start.x > center.x + wid / 2 && end.x < center.x + wid / 2;
-      boolean passTop = start.y < center.y + dist / 2 && end.y > rPos.x + dist / 2 || start.y > rPos.y + dist / 2 && end.y < rPos.y + dist / 2;
-      boolean passBottom = start.y < center.y - dist / 2 && end.y > rPos.x - dist / 2 || start.y > rPos.y - dist / 2 && end.y < rPos.y - dist / 2;
-      if (passLeft && passTop || passLeft && passBottom || passRight && passTop || passRight && passBottom) {
+      boolean vertical = start.x == end.x;
+      boolean horizontal = start.y == end.y;
+      boolean inBox = false;
+      if(!vertical && !horizontal) {
+        double slope = (start.y - end.y) / (start.x - end.x);
+        double passLeftY = slope * (center.x - dist / 2 - start.x) + start.y;
+        double passRightY = slope * (center.x + dist / 2 - start.x) + start.y;
+        double passTopX = (center.y + wid / 2 - start.y) / slope + start.x;
+        double passBottomX = (center.y - wid / 2 - start.y) / slope + start.x;
+        inBox = center.y - wid / 2 <= passLeftY && passLeftY <= center.y + wid / 2 && between(start.y, end.y, passLeftY)
+        || center.y - wid / 2 <= passRightY && passRightY <= center.y + wid / 2 && between(start.y, end.y, passRightY)
+        || center.x - dist / 2 <= passTopX && passTopX <= center.x + dist / 2 && between(start.x, end.x, passTopX)
+        || center.x - dist / 2 <= passBottomX && passBottomX <= center.x + dist / 2 && between(start.x, end.x, passBottomX);
+      }
+      if(vertical) inBox = center.x - dist / 2 <= start.x && start.x <= center.x + dist / 2 && (between(start.y, end.y, center.y - wid / 2) || between(start.y, end.y, center.y + wid / 2));
+      if(horizontal) inBox = center.y - wid / 2 <= start.y && start.y <= center.x + wid / 2 && (between(start.x, end.x, center.x - dist / 2) || between(start.x, end.x, center.x + dist / 2)); 
+      if(vertical && horizontal) inBox = start.x && start.y;
+      if (inBox) {
+        print(startX + "," + startY + "," + endX + "," + endY + ", " + rPos + "," + nextPos);
         r.getNext().setPrev(null);
         map.addRope(new Rope(r.getNext(), this));
         endpointB = r;

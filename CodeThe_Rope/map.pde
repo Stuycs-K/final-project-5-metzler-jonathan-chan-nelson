@@ -14,6 +14,7 @@ public class Map {
       PVectorD P1 = new PVectorD(400, 200);
       PVectorD P2 = new PVectorD(600, 250);
       ropes.add(new Rope(this, demoP1, demoP2, demoLFactor, demoMass, demoNumNodes));
+      ropes.get(0).setColor(color(200, 320, 160));
       c.link(ropes.get(0).getEndpointB());
     } else {
       c=new Candy(100, 100, 0, -1, 10, 40);
