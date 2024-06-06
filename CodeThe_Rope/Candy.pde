@@ -59,8 +59,8 @@ public class Candy extends node {
     r.setMass(r.getMass() + mass);
   }
   
-  public void unlink(RopeNode r){
-    for(int i = 0; i < links.size(); i++) r.setMovable(false);
+  public void unlink(){
+    for(int i = 0; i < links.size(); i++) links.get(i).setMovable(false);
   }
   
   public RopeNode getLink(int n){

@@ -3,7 +3,7 @@ PVectorD gravity = new PVectorD(0, 1);
 float mouseStartx;
 float mouseStarty;
 
-static double SPRING_STIFFNESS = 10;
+static double SPRING_STIFFNESS = 20;
 static double ENERGY_LOSS = 1;
 PVectorD staticP = new PVectorD(0, 0);
 
@@ -14,7 +14,7 @@ PVectorD demoP2 = new PVectorD(500, 100);
 PVectorD demoP3 = new PVectorD(600, 50);
 double demoLFactor = 1;
 double demoMass = 5; 
-int demoNumNodes = 4;
+int demoNumNodes = 5;
 
 
 void setup() {
