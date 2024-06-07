@@ -12,7 +12,7 @@ public class Map {
       ropes=new ArrayList<Rope>();
       PVectorD P1 = new PVectorD(400, 200);
       PVectorD P2 = new PVectorD(600, 250);
-      ropes.add(new Rope(this, demoP1, demoP2, demoLFactor, demoMass, demoNumNodes));
+      ropes.add(new Rope(this, P1, P2, 1, 5, 2));
       ropes.get(0).setColor(color(200, 320, 160));
       c.link(ropes.get(0).getEndpointB());
     } else {
@@ -108,6 +108,7 @@ public class Map {
     for (int i=0; i<spikes.size(); i++) {
       spike s=spikes.get(i);
       if (c.calcDistance(s)<(s.getRadius()+c.radius)/2) {
+        c.unlink();
         return true;
       }
     }

@@ -162,17 +162,23 @@ public class Rope {
 
   private void cut(RopeNode r, float startX, float startY, float endX, float endY, int i) {
     if (r != endpointB) {
+      println(startX);
+      println(startY);
+      println(endX);
+      println(endY);
       PVector start = new PVector(startX, startY);
       PVector end = new PVector(endX, endY);
       PVector rPos = r.getPosition().toPVector();
       PVector nextPos = r.getNext().getPosition().toPVector();
+      println(rPos);
+      println(nextPos);
       PVector center = PVector.add(rPos, nextPos).div(2);
-      float angle = PI + atan((float) ((rPos.y - nextPos.y)/(rPos.x - nextPos.x)));
+      float angle = atan((float) ((nextPos.y - rPos.y)/(rPos.x - nextPos.x)));
       float dist = PVector.dist(rPos, nextPos);
       start.sub(center);
       end.sub(center);
-      start.set(new PVector(-start.x * sin(-angle) + start.y * cos(-angle), -start.x * cos(-angle) - start.y * sin(-angle)));
-      end.set(new PVector(-end.x * sin(-angle) + end.y * cos(-angle), -end.x * cos(-angle) - end.y * sin(-angle)));
+      start.set(new PVector(start.x * cos(angle) - start.y * sin(angle), start.x * sin(angle) + start.y * cos(angle)));
+      end.set(new PVector(end.x * cos(angle) - end.y * sin(angle), end.x * sin(angle) + end.y * cos(angle)));
       start.add(center);
       end.add(center);
       boolean vertical = start.x == end.x;
