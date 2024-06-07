@@ -4,7 +4,7 @@ float mouseStartx;
 float mouseStarty;
 
 static double SPRING_STIFFNESS = 10;
-static double ENERGY_LOSS = 0.99995;
+static double ENERGY_LOSS = 0.9999;
 PVectorD staticP = new PVectorD(0, 0);
 
 //For Demo
@@ -20,6 +20,7 @@ void setup() {
   size(1500, 900);
   frameRate(1000);
   m=new Map(1);
+  m.start();
   }
 
   void draw() {
@@ -27,7 +28,12 @@ void setup() {
     m.move();
     m.display();
   }
-
+  void mouseClicked(){
+    demoP1 = new PVectorD(400, 50);
+    demoP2 = new PVectorD(200, 350);
+    m=new Map(1);
+    m.start();
+  }
   void mousePressed() {
     mouseStartx=mouseX;
     mouseStarty=mouseY;
@@ -36,7 +42,7 @@ void setup() {
     m.mouseMovement(mouseStartx, mouseStarty, mouseX, mouseY);
   }
   
-  void keyPressed() {
+  void keyPressed(){
     if (key == ' '){
       m.start();
     }

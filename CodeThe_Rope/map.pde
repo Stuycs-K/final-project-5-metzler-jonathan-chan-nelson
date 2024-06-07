@@ -32,6 +32,10 @@ public class Map {
     }
   }
   
+  public Candy getCandy(){
+    return c;
+  }
+  
   public void move() {
     for (int i=0; i<ropes.size(); i++) {
       ropes.get(i).move();
