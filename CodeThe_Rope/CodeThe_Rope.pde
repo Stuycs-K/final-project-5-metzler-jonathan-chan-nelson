@@ -5,7 +5,7 @@ float mouseStartY = - 1;
 
 boolean test;
 
-static double SPRING_STIFFNESS = 10;
+static double SPRING_STIFFNESS = 40;
 static double ENERGY_LOSS = 0.99995;
 PVectorD staticP = new PVectorD(0, 0);
 

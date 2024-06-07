@@ -3,7 +3,6 @@ public class Map {
   ArrayList<Rope> ropes;
   goal g;
   Candy c;
-  boolean start = true;
   public Map(int index) {
     if (index==1) {
       g=new goal(500, 500, 50);
@@ -46,18 +45,13 @@ public class Map {
     }
   }
   
-  public void start() {
-    ropes.get(0).getEndpointB().setMovable(true);
-    start = true;
-  }
-  
   public void addRope(Rope r){
     ropes.add(r);
   }
   
   public void mouseMovement(float startX, float startY, float endX, float endY) {
     int currSize = ropes.size();
-    for (int i=0; i<currSize && start; i++) {
+    for (int i=0; i<currSize; i++) {
       Rope r = ropes.get(i);
       r.cut(startX, startY, endX, endY);
     }
