@@ -15,7 +15,6 @@ public class Rope {
     endpointA = new RopeNode(this, P1, ms);
     endpointB = new RopeNode(this, P2, ms);
     endpointA.setMovable(false);
-    endpointB.setMovable(false);
     // Create Array
     double A = calcA(P1, new PVectorD(p2X, P2.y));
     double a = (p2X - P1.x) / (2 * A);
@@ -192,7 +191,6 @@ public class Rope {
       }
       if(vertical) inBox = center.x - dist / 2 <= start.x && start.x <= center.x + dist / 2 && (between(start.y, end.y, center.y - wid / 2) || between(start.y, end.y, center.y + wid / 2));
       if(horizontal) inBox = center.y - wid / 2 <= start.y && start.y <= center.x + wid / 2 && (between(start.x, end.x, center.x - dist / 2) || between(start.x, end.x, center.x + dist / 2)); 
-      if(vertical && horizontal) inBox = start.x && start.y;
       if (inBox) {
         print(startX + "," + startY + "," + endX + "," + endY + ", " + rPos + "," + nextPos);
         r.getNext().setPrev(null);
@@ -210,7 +208,7 @@ public class Rope {
     if (r != null && r.getPrev() != null) {
       PVectorD direction = staticP.sub(r.getPrev().getPosition(), r.getPosition());
       double displacement = direction.mag() - len / (numNodes - 1);
-      force = direction.normalize().mult(SPRING_STIFFNESS * numNodes * displacement);
+      force = direction.normalize().mult(SPRING_STIFFNESS * Math.pow(numNodes, 2) * displacement);
     }
     return force;
   }
@@ -223,8 +221,7 @@ public class Rope {
 
   private void move(RopeNode r) {
     PVectorD springForce = calcForce(r);
-    try {
-      r.setSpringForce(springForce);
+    r.setSpringForce(springForce);
       PVectorD force;
       if (r != endpointB) {
         move(r.getNext());
@@ -232,9 +229,6 @@ public class Rope {
       } else force = springForce.add(staticP.mult(gravity, r.getMass()));
       if (!endpointB.getMovable() && !endpointA.getMovable()) force.add(staticP.mult(r.getVelocity(), -0.999));
       r.applyForce(force);
-    }
-    catch(NullPointerException e) {
-    }
   }
 
   public void connect() {

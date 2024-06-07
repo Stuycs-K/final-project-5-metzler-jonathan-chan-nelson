@@ -15,7 +15,7 @@ PVectorD demoP1 = new PVectorD(400, 50);
 PVectorD demoP2 = new PVectorD(200, 350);
 double demoLFactor = 1;
 double demoMass = 5;
-int demoNumNodes = 80;
+int demoNumNodes = 5;
 
 void setup() {
   size(1500, 900);
