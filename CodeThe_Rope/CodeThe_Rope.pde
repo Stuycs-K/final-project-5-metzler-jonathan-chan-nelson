@@ -5,8 +5,13 @@ float mouseStartY = - 1;
 
 boolean test;
 
+<<<<<<< HEAD
 static double SPRING_STIFFNESS = 40;
 static double ENERGY_LOSS = 0.99995;
+=======
+static double SPRING_STIFFNESS = 10;
+static double ENERGY_LOSS = 0.9999;
+>>>>>>> c40e2d82714fbd6c72989ff85edff7b896e2b4ea
 PVectorD staticP = new PVectorD(0, 0);
 
 //For Demo
@@ -15,13 +20,13 @@ PVectorD demoP1 = new PVectorD(400, 50);
 PVectorD demoP2 = new PVectorD(200, 350);
 double demoLFactor = 1;
 double demoMass = 5;
-int demoNumNodes = 80;
+int demoNumNodes = 5;
 
 void setup() {
   size(1500, 900);
   frameRate(1000);
   m=new Map(1);
-}
+  }
 
 void draw() {
   background(255);

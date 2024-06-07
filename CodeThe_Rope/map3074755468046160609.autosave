@@ -3,6 +3,7 @@ public class Map {
   ArrayList<Rope> ropes;
   goal g;
   Candy c;
+  boolean start = true;
   public Map(int index) {
     if (index==1) {
       g=new goal(500, 500, 50);
@@ -12,8 +13,7 @@ public class Map {
       ropes=new ArrayList<Rope>();
       PVectorD P1 = new PVectorD(400, 200);
       PVectorD P2 = new PVectorD(600, 250);
-      ropes.add(new Rope(this, demoP1, demoP2, demoLFactor, demoMass, demoNumNodes));
-      ropes.get(0).setColor(color(200, 320, 160));
+      ropes.add(new Rope(this, P1, P2, 1, 5, 10));
       c.link(ropes.get(0).getEndpointB());
     } else {
       c=new Candy(100, 100, 0, -1, 10, 40);
@@ -49,13 +49,18 @@ public class Map {
     }
   }
   
+  public void start() {
+    ropes.get(0).getEndpointB().setMovable(true);
+    start = true;
+  }
+  
   public void addRope(Rope r){
     ropes.add(r);
   }
   
   public void mouseMovement(float startX, float startY, float endX, float endY) {
     int currSize = ropes.size();
-    for (int i=0; i<currSize; i++) {
+    for (int i=0; i<currSize && start; i++) {
       Rope r = ropes.get(i);
       r.cut(startX, startY, endX, endY);
     }

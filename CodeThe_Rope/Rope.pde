@@ -208,7 +208,7 @@ public class Rope {
     if (r != null && r.getPrev() != null) {
       PVectorD direction = staticP.sub(r.getPrev().getPosition(), r.getPosition());
       double displacement = direction.mag() - len / (numNodes - 1);
-      force = direction.normalize().mult(SPRING_STIFFNESS * numNodes * displacement);
+      force = direction.normalize().mult(SPRING_STIFFNESS * Math.pow(numNodes, 2) * displacement);
     }
     return force;
   }
@@ -221,8 +221,7 @@ public class Rope {
 
   private void move(RopeNode r) {
     PVectorD springForce = calcForce(r);
-    try {
-      r.setSpringForce(springForce);
+    r.setSpringForce(springForce);
       PVectorD force;
       if (r != endpointB) {
         move(r.getNext());
@@ -230,9 +229,6 @@ public class Rope {
       } else force = springForce.add(staticP.mult(gravity, r.getMass()));
       if (!endpointB.getMovable() && !endpointA.getMovable()) force.add(staticP.mult(r.getVelocity(), -0.999));
       r.applyForce(force);
-    }
-    catch(NullPointerException e) {
-    }
   }
 
   public void connect() {
