@@ -13,21 +13,24 @@ PVectorD staticP = new PVectorD(0, 0);
 boolean stroke;
 PVectorD demoP1 = new PVectorD(400, 50);
 PVectorD demoP2 = new PVectorD(200, 350);
+PVectorD demoP3 = new PVectorD(100, 350);
 double demoLFactor = 1;
 double demoMass = 5;
-int demoNumNodes = 5;
+int demoNumNodes = 30;
 
 void setup() {
   size(1500, 900);
   frameRate(1000);
-  m=new Map(1);
-  }
+  m = new Map(1);
+}
 
 void draw() {
-  background(255);
+  background(40);
+  rect(493, 20, 5, 5);
   m.move();
   m.display();
   if (mouseStartX != -1 && mouseStartY != -1) {
+    fill(color(255, 255, 255));
     float l = (float) Math.sqrt(Math.pow(mouseStartX - mouseX, 2) + Math.pow(mouseStartY - mouseY, 2));
     float angle = PI + atan((float) ((mouseStartY - mouseY)/(mouseStartX - mouseX)));
     translate(mouseStartX, mouseStartY);
@@ -52,6 +55,5 @@ void mousePressed() {
 
 
 void keyPressed() {
-  if (key == 'r') setup();
   if (key == 's') stroke = !stroke;
 }
