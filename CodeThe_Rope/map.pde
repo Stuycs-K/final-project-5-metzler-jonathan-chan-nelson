@@ -3,18 +3,29 @@ public class Map {
   ArrayList<Rope> ropes;
   goal g;
   Candy c;
+  double time;
   public Map(int index) {
     if (index==1) {
       g=new goal(500, 500, 50);
       spikes=new ArrayList<spike>();
       spikes.add(new spike(80, 750));
       ropes=new ArrayList<Rope>();
-      PVectorD P1 = new PVectorD(400, 200);
-      PVectorD P2 = new PVectorD(600, 250);
-      ropes.add(new Rope(this, P1, P2, 1, 5, 30));
+      PVectorD P1 = new PVectorD(100+200, 250);
+      PVectorD P2 = new PVectorD(100+300, 150);
+      PVectorD P2d = new PVectorD(500+200, 150);
+      PVectorD P3 = new PVectorD(500+300, 250);
+
+      ropes.add(new Rope(this, P1, P2, 1, 5, 8));
+      ropes.add(new Rope(this, P3, P2d, 1, 5, 8));
+
+
       ropes.get(0).setColor(color(200, 320, 160));
+      ropes.get(1).setColor(color(20, 120, 160));
+      ropes.get(0).getEndpointB().setMovable(true);
+      ropes.get(1).getEndpointB().setMovable(true);
       c=new Candy((float) P2.x, (float) P2.y, 0, 0, 10, 40);
-      c.link(ropes.get(0).getEndpointB());
+      //c.link(ropes.get(0).getEndpointB());
+      //c.link(ropes.get(1).getEndpointB());
     } else {
       c=new Candy(100, 100, 0, -1, 10, 40);
       g=new goal(100, 100, 50);
@@ -23,13 +34,13 @@ public class Map {
 
   public void display() {
     g.display();
+    c.display();
     for (int i=0; i<spikes.size(); i++) {
       spikes.get(i).display();
     }
     for (int i=0; i<ropes.size(); i++) {
       ropes.get(i).display();
     }
-    c.display();
   }
 
   public Candy getCandy() {
@@ -37,15 +48,14 @@ public class Map {
   }
 
   public void move() {
+    time += dt;
     for (int i=0; i<ropes.size(); i++) {
       ropes.get(i).move();
     }
     if (youWin()) {
       text("you win", 100, 100);
-      c.setMovable(false);
     } else if (youLose()) {
       text("you lose", 100, 100);
-      c.setMovable(false);
     }
   }
 
@@ -56,7 +66,6 @@ public class Map {
   public void mouseMovement(float startX, float startY, float endX, float endY) {
     int currSize = ropes.size();
     for (int i = 0; i < currSize; i++) ropes.get(i).cut(startX, startY, endX, endY);
-    for (int i = currSize; i < ropes.size(); i++) c.unlink(ropes.get(i).getEndpointA());
   }
 
   public boolean doesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float radius) {
@@ -99,9 +108,6 @@ public class Map {
   }
 
   public boolean youLose() {
-    if (c.offTheMap()) {
-      return true;
-    }
     for (int i=0; i<spikes.size(); i++) {
       spike s=spikes.get(i);
       if (c.calcDistance(s)<(s.getRadius()+c.radius)/2) {

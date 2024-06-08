@@ -1,5 +1,5 @@
 Map m;
-PVectorD gravity = new PVectorD(0, 1);
+PVectorD gravity = new PVectorD(0, 20);
 float mouseStartX = -1;
 float mouseStartY = - 1;
 
@@ -8,14 +8,10 @@ boolean test;
 static double SPRING_STIFFNESS = 10;
 static double ENERGY_LOSS = 0.99999;
 PVectorD staticP = new PVectorD(0, 0);
-double dt = 0.001;
+double dt = 0.0001;
 
 //For Demo
 boolean stroke;
-
-private boolean between(double v1, double v2, double v3) {
-  return v1 <= v3 && v3 <= v2 || v2 <= v3 && v3 <= v1;
-}
 
 void setup() {
   size(1500, 900);
@@ -54,4 +50,5 @@ void mousePressed() {
 void keyPressed() {
   if (key == 'r') setup();
   if (key == 's') stroke = !stroke;
+  if (key == 't') test = !test;
 }

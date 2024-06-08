@@ -4,6 +4,7 @@ public class RopeNode {
   private Rope rope;
   private double mass;
   private boolean movable = true;
+  private Candy candyLink;
 
   public RopeNode(Rope r, PVectorD p, PVectorD v, PVectorD a, double ms, boolean m) {
     neighborA = null;
@@ -54,6 +55,10 @@ public class RopeNode {
   public void setMovable(boolean m) {
     movable = m;
   }
+  
+  public void setCandyLink(Candy c){
+    candyLink = c;
+  }
 
   public RopeNode getPrev() {
     return neighborA;
@@ -65,6 +70,10 @@ public class RopeNode {
 
   public Rope getRope() {
     return rope;
+  }
+  
+   public Candy getCandyLink(){
+     return candyLink;
   }
 
   public PVectorD getPosition() {

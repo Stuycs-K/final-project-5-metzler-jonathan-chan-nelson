@@ -5,12 +5,6 @@ public class Rope {
   color col;
   Map map;
 
-  private int signum(double d) {
-    if (d > 0) return 1;
-    if (d < 0) return -1;
-    return 0;
-  }
-
   public Rope(Map m, PVectorD P1, PVectorD P2, double lFactor, double ms, int n) {
     map = m;
     len = lFactor * staticP.dist(P1, P2);
@@ -19,15 +13,16 @@ public class Rope {
     endpointA = new RopeNode(this, P1, ms);
     endpointB = new RopeNode(this, P2, ms);
     endpointA.setMovable(false);
+    endpointB.setMovable(false);
     // Create Array
-    double A = calcA(P1, new PVectorD(P2.x, P2.y));
+    double A = calcA(P1, P2);
     double a = (P2.x - P1.x) / (2 * A);
     double b =  ((P1.x + P2.x) / 2 - a * Math.log((1 + (P1.y - P2.y) / len) / (1 - (P1.y - P2.y) / len)) / 2);
     double c =  (-P1.y - a * Math.cosh((P1.x - b) / a));
-    for (double errorBound = 0; endpointB.getPrev() == null; errorBound += 0.001) {
+    for (double errorBound = 0; endpointB.getPrev() == null; errorBound += 0.0001) {
       int i = 1;
       RopeNode r = endpointA;
-      for (double dx = 0; Math.abs(dx) < Math.abs(P2.x - P1.x); dx += (P2.x - P1.x) / (10000 - numNodes)) {
+      for (double dx = 0; Math.abs(dx) < Math.abs(P2.x - P1.x) && endpointB.getPrev() == null; dx += (P2.x - P1.x) / (10000 - numNodes)) {
         PVectorD p = new PVectorD(P1.x + dx, -(a * Math.cosh((P1.x + Math.abs(dx) - b) / a) + c));
         if (Math.abs(staticP.sub(p, r.getPosition()).mag() - len / (n - 1)) < errorBound || i == n - 1) {
           p.add(new PVectorD(p.x, p.y).normalize().mult(errorBound));
@@ -40,6 +35,7 @@ public class Rope {
         }
       }
     }
+    println(endpointB.getNext());
   }
 
   private Rope(RopeNode r, Rope rope) {
@@ -49,7 +45,6 @@ public class Rope {
     endpointB = r;
     wid = rope.getWidth();
     len = (getIndex(r) - 1) * rope.getLength() / (rope.getNumNodes() - 1);
-    print(len);
     col = rope.getColor();
     map = rope.getMap();
   }
@@ -64,6 +59,7 @@ public class Rope {
 
   private void reverse(RopeNode r) {
     if (r != null) {
+      if(r == endpointA);
       RopeNode prev = r.getPrev();
       r.setPrev(r.getNext());
       reverse(prev);
@@ -155,6 +151,11 @@ public class Rope {
       translate(-x, -y);
       if (r != endpointB.getPrev()) display(r.getNext());
     }
+    
+     if(endpointA.getPrev() != null){
+       PVectorD pos = endpointA.getPrev().getPosition();
+       rect((float) pos.x, (float) pos.y , 10, 10);
+     }
   }
 
   public void cut(float startX, float startY, float endX, float endY) {
@@ -212,15 +213,19 @@ public class Rope {
     if (r != null && r.getPrev() != null) {
       PVectorD direction = staticP.sub(r.getPrev().getPosition(), r.getPosition());
       double displacement = direction.mag() - len / (numNodes - 1);
-      force = direction.normalize().mult(SPRING_STIFFNESS * Math.pow(numNodes, 2) * displacement);
+      if(test && endpointA.getMovable()) {print(direction.mag());print(",     " + (len / (numNodes - 1)));println(",     " + (direction.mag() - len / (numNodes - 1)));}
+      force = direction.normalize().mult(SPRING_STIFFNESS * numNodes * displacement);
     }
+    
     return force;
   }
 
   public void move() {
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 20; i++) {
       move(endpointA);
+      if(test && endpointA.getMovable()) println();
     }
+    if(test && endpointA.getMovable()) test = !test;
   }
 
   private void move(RopeNode r) {
@@ -229,8 +234,15 @@ public class Rope {
     PVectorD force;
     if (r != endpointB) {
       move(r.getNext());
-      force = springForce.sub(r.getNext().getSpringForce()).add(staticP.mult(gravity, r.getMass()));
-    } else force = springForce.add(staticP.mult(gravity, r.getMass()));
+      //if(test && endpointA.getMovable()) print(springForce);
+      force = springForce.sub(r.getNext().getSpringForce());
+    } else force = springForce;
+    //if(test && endpointA.getMovable()) println(force);
+    Candy c = r.getCandyLink();
+    if(c != null){
+      c.applyForce(force);
+    }
+    force.add(staticP.mult(gravity, r.getMass()));
     if (!endpointB.getMovable() && !endpointA.getMovable()) force.add(staticP.mult(r.getVelocity(), -0.999));
     r.applyForce(force);
   }
