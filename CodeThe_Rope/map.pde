@@ -6,7 +6,6 @@ public class Map {
   public Map(int index) {
     if (index==1) {
       g=new goal(500, 500, 50);
-      c=new Candy(500, 100, 0, 0, 10, 40);
       spikes=new ArrayList<spike>();
       spikes.add(new spike(80, 750));
       ropes=new ArrayList<Rope>();
@@ -14,15 +13,15 @@ public class Map {
       PVectorD P2 = new PVectorD(600, 250);
       ropes.add(new Rope(this, P1, P2, 1, 5, 30));
       ropes.get(0).setColor(color(200, 320, 160));
+      c=new Candy((float) P2.x, (float) P2.y, 0, 0, 10, 40);
       c.link(ropes.get(0).getEndpointB());
     } else {
       c=new Candy(100, 100, 0, -1, 10, 40);
       g=new goal(100, 100, 50);
     }
   }
-  
+
   public void display() {
-    c.display();
     g.display();
     for (int i=0; i<spikes.size(); i++) {
       spikes.get(i).display();
@@ -30,37 +29,36 @@ public class Map {
     for (int i=0; i<ropes.size(); i++) {
       ropes.get(i).display();
     }
+    c.display();
   }
-  
-  public Candy getCandy(){
+
+  public Candy getCandy() {
     return c;
   }
-  
+
   public void move() {
     for (int i=0; i<ropes.size(); i++) {
       ropes.get(i).move();
     }
     if (youWin()) {
       text("you win", 100, 100);
+      c.setMovable(false);
     } else if (youLose()) {
       text("you lose", 100, 100);
-    } else {  
-      c.applyForce(gravity);
+      c.setMovable(false);
     }
   }
-  
-  public void addRope(Rope r){
+
+  public void addRope(Rope r) {
     ropes.add(r);
   }
-  
+
   public void mouseMovement(float startX, float startY, float endX, float endY) {
     int currSize = ropes.size();
-    for (int i=0; i<currSize; i++) {
-      Rope r = ropes.get(i);
-      r.cut(startX, startY, endX, endY);
-    }
+    for (int i = 0; i < currSize; i++) ropes.get(i).cut(startX, startY, endX, endY);
+    for (int i = currSize; i < ropes.size(); i++) c.unlink(ropes.get(i).getEndpointA());
   }
-  
+
   public boolean doesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float radius) {
     // Calculate the quadratic equation coefficients
     double dx = x2 - x1;
@@ -95,7 +93,6 @@ public class Map {
 
   public boolean youWin() {
     if (c.calcDistance(g)<(g.getRadius()+c.radius)/2) {
-      c.unlink();
       return true;
     }
     return false;
@@ -108,7 +105,6 @@ public class Map {
     for (int i=0; i<spikes.size(); i++) {
       spike s=spikes.get(i);
       if (c.calcDistance(s)<(s.getRadius()+c.radius)/2) {
-        c.unlink();
         return true;
       }
     }

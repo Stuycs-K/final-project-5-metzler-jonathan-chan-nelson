@@ -5,7 +5,7 @@ public class RopeNode {
   private double mass;
   private boolean movable = true;
 
-  public RopeNode(Rope r, PVectorD p, PVectorD v, PVectorD a, double ms, boolean movable) {
+  public RopeNode(Rope r, PVectorD p, PVectorD v, PVectorD a, double ms, boolean m) {
     neighborA = null;
     neighborB = null;
     rope = r;
@@ -14,7 +14,7 @@ public class RopeNode {
     acceleration = a;
     springForce = new PVectorD(0, 0);
     mass = ms;
-    movable = movable;
+    movable = m;
   }
 
   public RopeNode(Rope r, PVectorD p, double ms) {
@@ -93,7 +93,6 @@ public class RopeNode {
 
   public void applyForce(PVectorD f) {
     if (movable) {
-      double dt = 0.01;
       velocity.mult(ENERGY_LOSS);
       velocity.add(staticP.mult(f, dt / mass));
       position.add(staticP.mult(velocity, dt));

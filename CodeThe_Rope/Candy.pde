@@ -4,26 +4,37 @@ public class Candy extends node {
   float mass;
   color c;
   PImage img;
-  RopeNode link;
+  ArrayList<RopeNode> links = new ArrayList<RopeNode>();
+  boolean movable = true;
 
   void display() {
     imageMode(CENTER);
-    if(link != null){
-      position.x = link.getPosition().x;
-      position.y = link.getPosition().y;
+    for (int i = 0; i < links.size() && movable; i++) {
+      position.set(0, 0);
+      position.add(staticP.div(links.get(i).getPosition(), links.size()));
     }
+    if(links.size() == 0) move();
     image(img, (float) position.x, (float) position.y, radius + 10, radius + 10);
   }
   
-  
-  void applyForce(PVectorD f) {
-    if(link == null){
-      double dt = 0.01;
-      velocity.add(staticP.mult(f, dt / mass));
+  void move() {
+    for (int i = 0; i < 200 && movable; i++) {
+      velocity.mult(ENERGY_LOSS);
       position.add(staticP.mult(velocity, dt));
+      applyForce(staticP.mult(gravity, mass));
     }
   }
+
+  public void applyForce(PVectorD f) {
+    velocity.mult(ENERGY_LOSS);
+    velocity.add(staticP.mult(f, dt / mass));
+    position.add(staticP.mult(velocity, dt));
+  }
   
+  public void setMovable(boolean m) {
+    movable = m;
+  }
+
   public Candy(float x, float y, float xSpeed, float ySpeed, float mass_, float radius_ ) {
     super(x, y, createShape(ELLIPSE, 0, 0, radius_, radius_), color(255, 0, 0));
     velocity = new PVectorD(xSpeed, ySpeed);
@@ -32,7 +43,7 @@ public class Candy extends node {
     radius = radius_;
     img = loadImage("Candy.jpg");
   }
-  
+
   public boolean offTheMap() {
     if (position.x < radius) {
       return true;
@@ -48,22 +59,17 @@ public class Candy extends node {
     }
     return false;
   }
-  
-  public void link(RopeNode r){
-    if(link == null){
-      link = r;
-      r.setMass(r.getMass() + mass);
-    }
+
+  public void link(RopeNode r) {
+    links.add(r);
+    r.setMass(r.getMass() + mass);
   }
-  
-  public void unlink(){
-    if(link != null){
-      link.setMass(link.getMass() - mass);
-      link = null;
+
+  public void unlink(RopeNode r) {
+    if (links.indexOf(r) != -1) {
+      links.remove(r);
+      r.setMass(r.getMass() - mass);
     }
-  }
-  
-  public RopeNode getLink(){
-    return link;
+    if (links.size() == 0) velocity = staticP.mult(r.getVelocity(), mass / (r.getMass() + mass));
   }
 }

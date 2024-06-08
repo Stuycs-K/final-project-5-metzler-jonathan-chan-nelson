@@ -1,13 +1,14 @@
 Map m;
-PVectorD gravity = new PVectorD(0, 3);
+PVectorD gravity = new PVectorD(0, 1);
 float mouseStartX = -1;
 float mouseStartY = - 1;
 
 boolean test;
 
 static double SPRING_STIFFNESS = 10;
-static double ENERGY_LOSS = 0.99995;
+static double ENERGY_LOSS = 0.99999;
 PVectorD staticP = new PVectorD(0, 0);
+double dt = 0.001;
 
 //For Demo
 boolean stroke;

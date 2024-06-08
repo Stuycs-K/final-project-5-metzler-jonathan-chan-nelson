@@ -4,13 +4,13 @@ public class Rope {
   int numNodes;
   color col;
   Map map;
-  
-  private int signum(double d){
-    if(d > 0) return 1;
-    if(d < 0) return -1;
+
+  private int signum(double d) {
+    if (d > 0) return 1;
+    if (d < 0) return -1;
     return 0;
   }
-  
+
   public Rope(Map m, PVectorD P1, PVectorD P2, double lFactor, double ms, int n) {
     map = m;
     len = lFactor * staticP.dist(P1, P2);
@@ -27,7 +27,7 @@ public class Rope {
     for (double errorBound = 0; endpointB.getPrev() == null; errorBound += 0.001) {
       int i = 1;
       RopeNode r = endpointA;
-      for(double dx = 0; Math.abs(dx) < Math.abs(P2.x - P1.x); dx += (P2.x - P1.x) / (10000 - numNodes)) {
+      for (double dx = 0; Math.abs(dx) < Math.abs(P2.x - P1.x); dx += (P2.x - P1.x) / (10000 - numNodes)) {
         PVectorD p = new PVectorD(P1.x + dx, -(a * Math.cosh((P1.x + Math.abs(dx) - b) / a) + c));
         if (Math.abs(staticP.sub(p, r.getPosition()).mag() - len / (n - 1)) < errorBound || i == n - 1) {
           p.add(new PVectorD(p.x, p.y).normalize().mult(errorBound));
@@ -104,9 +104,9 @@ public class Rope {
     if (i < numNodes / 2) return getNode(i, endpointA);
     else return getNode(i, endpointB);
   }
-  
-  public int getIndex(RopeNode r){
-    if(r == endpointA) return 1;
+
+  public int getIndex(RopeNode r) {
+    if (r == endpointA) return 1;
     return 1 + getIndex(r.getPrev());
   }
 
@@ -218,7 +218,7 @@ public class Rope {
   }
 
   public void move() {
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 200; i++) {
       move(endpointA);
     }
   }
