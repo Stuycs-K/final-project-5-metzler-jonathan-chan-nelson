@@ -12,7 +12,7 @@ public class Map {
       ropes=new ArrayList<Rope>();
       PVectorD P1 = new PVectorD(400, 200);
       PVectorD P2 = new PVectorD(600, 250);
-      ropes.add(new Rope(this, P1, P2, 1, 5, 2));
+      ropes.add(new Rope(this, P1, P2, 1, 5, 30));
       ropes.get(0).setColor(color(200, 320, 160));
       c.link(ropes.get(0).getEndpointB());
     } else {

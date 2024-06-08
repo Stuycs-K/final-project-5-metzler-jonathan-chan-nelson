@@ -3,10 +3,9 @@ public class RopeNode {
   private PVectorD position, velocity, acceleration, springForce;
   private Rope rope;
   private double mass;
-  private double len;
   private boolean movable = true;
 
-  public RopeNode(Rope r, PVectorD p, PVectorD v, PVectorD a, double m, double l, boolean movable) {
+  public RopeNode(Rope r, PVectorD p, PVectorD v, PVectorD a, double ms, boolean movable) {
     neighborA = null;
     neighborB = null;
     rope = r;
@@ -14,17 +13,16 @@ public class RopeNode {
     velocity = v;
     acceleration = a;
     springForce = new PVectorD(0, 0);
-    mass = m;
+    mass = ms;
     movable = movable;
-    len = l;
   }
 
-  public RopeNode(Rope r, PVectorD p, double m) {
-    this(r, p, new PVectorD(0, 0), new PVectorD(0, 0), m, 0, true);
+  public RopeNode(Rope r, PVectorD p, double ms) {
+    this(r, p, new PVectorD(0, 0), new PVectorD(0, 0), ms, true);
   }
 
   public RopeNode(RopeNode r) {
-    this(r.getRope(), r.getPosition(), r.getVelocity(), r.getAcceleration(), r.getMass(), r.getLength(), r.getMovable());
+    this(r.getRope(), r.getPosition(), r.getVelocity(), r.getAcceleration(), r.getMass(), r.getMovable());
   }
 
   public void setPrev(RopeNode a) {
@@ -51,10 +49,6 @@ public class RopeNode {
 
   public void setMass(double m) {
     mass = m;
-  }
-
-  public void setLength(double l) {
-    len = l;
   }
 
   public void setMovable(boolean m) {
@@ -91,10 +85,6 @@ public class RopeNode {
 
   public double getMass() {
     return mass;
-  }
-
-  public double getLength() {
-    return len;
   }
 
   public boolean getMovable() {
