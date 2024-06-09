@@ -1,65 +1,56 @@
-public class Candy extends node {
-  PVectorD velocity, acceleration;
-  float radius;
-  float mass;
-  color c;
-  PImage img;
-  ArrayList<RopeNode> links = new ArrayList<RopeNode>();
+public class Candy extends Node {
+  private ArrayList <RopeNode> links = new ArrayList <RopeNode>();
+  private PVectorD velocity;
+  private double mass;
 
-  void display() {
-    imageMode(CENTER);
-    image(img, (float) position.x, (float) position.y, radius + 10, radius + 10);
+  public Candy(double x, double y, float xSpeed, float ySpeed, float mass_, float r) {
+    super(x, y, createShape(ELLIPSE, 0, 0, r, r), r, color(255, 0, 0), loadImage("Candy.jpg"));
+    velocity = new PVectorD(xSpeed, ySpeed);
+    mass = mass_;
   }
-  
+
   public void move() {
     applyForce(staticP.mult(gravity, mass));
-    for(int i = 0; i < links.size(); i++){
-      links.get(i).setPosition(position);
+    for (int i = 0; i < links.size(); i++) {
+      links.get(i).setPosition(getPosition());
     }
   }
-  
-  public void applyForce(PVectorD f) {
+
+  private void applyForce(PVectorD f) {
     velocity.mult(ENERGY_LOSS);
     velocity.add(staticP.mult(f, dt / mass));
-    position.add(staticP.mult(velocity, dt));
+    getPosition().add(staticP.mult(velocity, dt));
   }
-
-  public Candy(float x, float y, float xSpeed, float ySpeed, float mass_, float radius_ ) {
-    super(x, y, createShape(ELLIPSE, 0, 0, radius_, radius_), color(255, 0, 0));
-    velocity = new PVectorD(xSpeed, ySpeed);
-    acceleration = new PVectorD(0, 0);
-    mass = mass_;
-    radius = radius_;
-    img = loadImage("Candy.jpg");
-  }
-
-  public boolean offTheMap() {
-    if (position.x < radius) {
-      return true;
-    }
-    if (position.x > width-radius) {
-      return true;
-    }
-    if (position.y < radius) {
-      return true;
-    }
-    if (position.y > height-radius) {
-      return true;
-    }
-    return false;
-  }
-
+  
   public void link(RopeNode r) {
     links.add(r);
     r.setCandyLink(this);
-    
   }
 
   public void unlink(RopeNode r) {
     if (links.indexOf(r) != -1) {
-      if (links.size() == 1) velocity = staticP.mult(r.getVelocity(), mass / (r.getMass() + mass));
       r.setCandyLink(null);
       links.remove(r);
     }
+  }
+
+  public ArrayList <RopeNode> getLinks() {
+    return links;
+  }
+
+  public boolean offTheMap() {
+    if (getPosition().x < getRadius()) {
+      return true;
+    }
+    if (getPosition().x > width - getRadius()) {
+      return true;
+    }
+    if (getPosition().y < getRadius()) {
+      return true;
+    }
+    if (getPosition().y > height - getRadius()) {
+      return true;
+    }
+    return false;
   }
 }

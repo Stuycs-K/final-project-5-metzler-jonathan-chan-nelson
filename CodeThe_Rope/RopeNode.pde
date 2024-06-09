@@ -1,29 +1,30 @@
 public class RopeNode {
   private RopeNode neighborA, neighborB;
-  private PVectorD position, velocity, acceleration, springForce;
+  private PVectorD position, velocity, springForce;
+  private Candy candyLink;
   private Rope rope;
   private double mass;
   private boolean movable = true;
-  private Candy candyLink;
+  ;
 
-  public RopeNode(Rope r, PVectorD p, PVectorD v, PVectorD a, double ms, boolean m) {
+  public RopeNode(Rope r, PVectorD p, PVectorD v, double ms, boolean m) {
     neighborA = null;
     neighborB = null;
     rope = r;
     position = p;
     velocity = v;
-    acceleration = a;
-    springForce = new PVectorD(0, 0);
+    springForce = new PVectorD();
     mass = ms;
     movable = m;
   }
 
   public RopeNode(Rope r, PVectorD p, double ms) {
-    this(r, p, new PVectorD(0, 0), new PVectorD(0, 0), ms, true);
+    this(r, p, new PVectorD(), ms, true);
   }
 
   public RopeNode(RopeNode r) {
-    this(r.getRope(), r.getPosition(), r.getVelocity(), r.getAcceleration(), r.getMass(), r.getMovable());
+    this(r.getRope(), r.getPosition(), r.getVelocity(), r.getMass(), r.getMovable());
+    springForce = r.getSpringForce();
   }
 
   public void setPrev(RopeNode a) {
@@ -36,7 +37,6 @@ public class RopeNode {
 
   public void setPosition(PVectorD p) {
     position = new PVectorD(p);
-    ;
   }
 
   public void setVelocity(PVectorD v) {
@@ -45,7 +45,10 @@ public class RopeNode {
 
   public void setSpringForce(PVectorD s) {
     springForce = new PVectorD(s);
-    ;
+  }
+  
+  public void setCandyLink(Candy c) {
+    candyLink = c;
   }
 
   public void setMass(double m) {
@@ -54,10 +57,6 @@ public class RopeNode {
 
   public void setMovable(boolean m) {
     movable = m;
-  }
-  
-  public void setCandyLink(Candy c){
-    candyLink = c;
   }
 
   public RopeNode getPrev() {
@@ -68,14 +67,6 @@ public class RopeNode {
     return neighborB;
   }
 
-  public Rope getRope() {
-    return rope;
-  }
-  
-   public Candy getCandyLink(){
-     return candyLink;
-  }
-
   public PVectorD getPosition() {
     return position;
   }
@@ -84,12 +75,17 @@ public class RopeNode {
     return velocity;
   }
 
-  public PVectorD getAcceleration() {
-    return acceleration;
-  }
-
   public PVectorD getSpringForce() {
     return springForce;
+  }
+  
+  
+  public Rope getRope() {
+    return rope;
+  }
+
+  public Candy getCandyLink() {
+    return candyLink;
   }
 
   public double getMass() {

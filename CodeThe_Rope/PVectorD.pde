@@ -1,82 +1,86 @@
 public class PVectorD {
   double x, y, z;
 
-  PVectorD(double xx, double yy) {
+  public PVectorD() {
+    set(0, 0, 0);
+  }
+
+  public PVectorD(double xx, double yy) {
     set(xx, yy);
   }
 
-  PVectorD(double xx, double yy, double zz) {
+  public PVectorD(double xx, double yy, double zz) {
     set(xx, yy, zz);
   }
 
-  PVectorD(PVector p) {
+  public PVectorD(PVector p) {
     set(p);
   }
 
-  PVectorD(PVectorD p) {
+  public PVectorD(PVectorD p) {
     set(p);
   }
 
-  PVectorD(int[] a) {
+  public PVectorD(int[] a) {
     set(float(a));
   }
 
-  PVectorD(float[] a) {
+  public PVectorD(float[] a) {
     set(a);
   }
 
-  PVectorD(double[] a) {
+  public PVectorD(double[] a) {
     set(a);
   }
 
-  void clear() {
+  public void clear() {
     x = y = z = 0;
   }
 
-  void set(double xx, double yy) {
+  public void set(double xx, double yy) {
     x = xx;
     y = yy;
   }
 
-  void set(double xx, double yy, double zz) {
+  public void set(double xx, double yy, double zz) {
     x = xx;
     y = yy;
     z = zz;
   }
 
-  void set(PVectorD p) {
+  public void set(PVectorD p) {
     x = p.x;
     y = p.y;
     z = p.z;
   }
 
-  void set(PVector p) {
+  public void set(PVector p) {
     x = p.x;
     y = p.y;
     z = p.z;
   }
 
-  void set(int[] a) {
+  public void set(int[] a) {
     set(float(a));
   }
 
-  void set(float[] a) {
+  public void set(float[] a) {
     final int len = a.length;
 
-    if (len > 0)  x = a[0];
-    if (len > 1)  y = a[1];
-    if (len > 2)  z = a[2];
+    if (len > 0) x = a[0];
+    if (len > 1) y = a[1];
+    if (len > 2) z = a[2];
   }
 
-  void set(double[] a) {
+  public void set(double[] a) {
     final int len = a.length;
 
-    if (len > 0)  x = a[0];
-    if (len > 1)  y = a[1];
-    if (len > 2)  z = a[2];
+    if (len > 0) x = a[0];
+    if (len > 1) y = a[1];
+    if (len > 2) z = a[2];
   }
 
-  PVectorD get() {
+  public PVectorD get() {
     return new PVectorD(x, y, z);
   }
 
@@ -84,7 +88,7 @@ public class PVectorD {
     return Math.sqrt(x * x + y * y + z * z);
   }
 
-  PVectorD normalize() {
+  public PVectorD normalize() {
     double mag = mag();
     x /= mag;
     y /= mag;
@@ -92,55 +96,55 @@ public class PVectorD {
     return this;
   }
 
-  PVectorD add(PVectorD p) {
+  public PVectorD add(PVectorD p) {
     x += p.x;
     y += p.y;
     z += p.z;
     return this;
   }
 
-  PVectorD add(PVectorD p1, PVectorD p2) {
+  public PVectorD add(PVectorD p1, PVectorD p2) {
     return new PVectorD(p1.x + p2.x, p1.y + p2.y, p1.z + p2.z);
   }
 
-  PVectorD sub(PVectorD p) {
+  public PVectorD sub(PVectorD p) {
     x -= p.x;
     y -= p.y;
     z -= p.z;
     return this;
   }
 
-  PVectorD sub(PVectorD p1, PVectorD p2) {
+  public PVectorD sub(PVectorD p1, PVectorD p2) {
     return new PVectorD(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
   }
 
-  PVectorD mult(double d) {
+  public PVectorD mult(double d) {
     x *= d;
     y *= d;
     z *= d;
     return this;
   }
 
-  PVectorD mult(PVectorD p, double d) {
+  public PVectorD mult(PVectorD p, double d) {
     return new PVectorD(p.x * d, p.y * d, p.z * d);
   }
 
-  PVectorD div(double d) {
+  public PVectorD div(double d) {
     x /= d;
     y /= d;
     z /= d;
     return this;
   }
 
-  PVectorD div(PVectorD p, double d) {
+  public PVectorD div(PVectorD p, double d) {
     return new PVectorD(p.x / d, p.y / d, p.z / d);
   }
 
   double dist(PVectorD p1, PVectorD p2) {
     return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2) + Math.pow(p1.z - p2.z, 2));
   }
-  
-  void invert(){
+
+  public void invert() {
     double tempX = x;
     x = y;
     y = tempX;
