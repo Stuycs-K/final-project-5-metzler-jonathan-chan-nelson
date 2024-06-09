@@ -23,8 +23,6 @@ public class Map {
       c.link(ropes.get(0).getEndpointB());
       c.link(ropes.get(1).getEndpointB());
     } else {
-      c = new Candy(100, 100, 0, -1, 10, 40);
-      g = new Goal(100, 100, 50);
     }
   }
   
@@ -70,14 +68,14 @@ public class Map {
     }
     return false;
   }
+  
   private boolean youLose() {
-    for (int i = 0; i < spikes.size(); i++) {
+    boolean lose = c.getLinks().size() == 0 && c.offTheMap();
+    for (int i = 0; i < spikes.size() && !lose; i++) {
       Spike s = spikes.get(i);
-      if (c.calcDistance(s) < (spikes.get(i).getRadius() + c.getRadius()) / 2) {
-        text("you lose", 100, 100);
-        return true;
-      }
+      lose = c.calcDistance(s) < (s.getRadius() + c.getRadius()) / 2;
     }
-    return false;
+    if (lose) text("you lose", 100, 100);
+    return lose;
   }
 }

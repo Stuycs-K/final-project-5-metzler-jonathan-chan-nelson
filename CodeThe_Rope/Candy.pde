@@ -4,7 +4,7 @@ public class Candy extends Node {
   private double mass;
 
   public Candy(double x, double y, float xSpeed, float ySpeed, float mass_, float r) {
-    super(x, y, createShape(ELLIPSE, 0, 0, r, r), r, color(255, 0, 0), loadImage("Candy.jpg"));
+    super(x, y, createShape(ELLIPSE, 0, 0, r, r), r, color(255, 0, 0), loadImage("Candy.png"));
     velocity = new PVectorD(xSpeed, ySpeed);
     mass = mass_;
   }
@@ -39,18 +39,7 @@ public class Candy extends Node {
   }
 
   public boolean offTheMap() {
-    if (getPosition().x < getRadius()) {
-      return true;
-    }
-    if (getPosition().x > width - getRadius()) {
-      return true;
-    }
-    if (getPosition().y < getRadius()) {
-      return true;
-    }
-    if (getPosition().y > height - getRadius()) {
-      return true;
-    }
-    return false;
+    boolean b = getPosition().x + getRadius() < 0 || width < getPosition().x - getRadius() || getPosition().y + getRadius() < 0 || height < getPosition().y - getRadius();
+    return b;
   }
 }

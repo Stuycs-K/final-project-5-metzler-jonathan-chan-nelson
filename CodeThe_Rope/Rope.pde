@@ -114,7 +114,7 @@ public class Rope {
   }
 
   public void display() {
-    //noStroke();
+    noStroke();
     fill(col);
     display(endpointA);
   }

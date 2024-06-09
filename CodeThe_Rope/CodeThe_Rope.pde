@@ -1,28 +1,46 @@
 Map m;
+Menu menu;
+PImage background;
 PVectorD gravity = new PVectorD(0, 4);
 float mouseStartX = -1;
 float mouseStartY = -1;
+int level;
 
 static double SPRING_STIFFNESS = 10;
-static double ENERGY_LOSS = 0.999995;
+static double ENERGY_LOSS = 1;
 PVectorD staticP = new PVectorD();
 double dt = 0.0001;
 
 void setup() {
+  background = loadImage("codeTheRope.jpg");
+  background.resize(1500, 900);
   size(1500, 900);
   frameRate(200);
-  m = new Map(1);
+  menu = new Menu(6);
+  menu.display();
+  level = 0;
 }
 
 void draw() {
-  background(255);
-  m.move();
-  m.display();
-  cutLine();
+  background(background);
+  PImage rewind = loadImage("Rewind_button.jpg");
+  if (level == 0) {
+    menu.display();
+  } else {
+    m.move();
+    m.display();
+    image(rewind, 1400, 50, 50, 50);
+    cutLine();
+  }
 }
 
 void mousePressed() {
-  if (mouseStartX != -1 && mouseStartY != -1) {
+  if (level == 0) {
+    level = menu.clicking(mouseX, mouseY);
+    m = new Map(level);
+  } else if (mouseX > 1400 && mouseX < 1450 && mouseY > 50 && mouseY < 100) {
+    setup();
+  } else if (level != 0 && mouseStartX != -1 && mouseStartY != -1) {
     m.mouseMovement(mouseStartX, mouseStartY, mouseX, mouseY);
     mouseStartX = -1;
     mouseStartX = -1;
@@ -41,7 +59,7 @@ void cutLine() {
     float sectionDistance = 5;
     translate(mouseStartX, mouseStartY);
     rotate(angle);
-    for(float totalLen = 0; totalLen < len; totalLen += sectionLen + sectionDistance){
+    for (float totalLen = 0; totalLen < len; totalLen += sectionLen + sectionDistance) {
       float addedLen = sectionLen;
       if (totalLen + sectionLen > len) addedLen = len - totalLen;
       if (mouseStartX >= mouseX) rect(totalLen, -1, addedLen, 2);
@@ -50,9 +68,4 @@ void cutLine() {
     rotate(-angle);
     translate(-mouseStartX, -mouseStartY);
   }
-}
-
-
-void keyPressed() {
-  if (key == 'r') setup();
 }
