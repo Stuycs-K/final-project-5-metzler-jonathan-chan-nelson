@@ -1,21 +1,16 @@
-public class Menu {
-  private int levels;
+public class Pause {
   
-  public Menu(int levels_) {
-    levels=levels_;
+  public Pause() {
   }
   public void display() {
-    textSize(50);
-    stroke(0);
-    fill(50,150,50);
+    fill(100,200,100);
+    shape(createShape(RECT, 0, 0, 1000, 500), 250, 200);
+    fill(255);
+    shape(createShape(RECT, 0, 0, 200, 200), 350, 350);
+    shape(createShape(RECT, 0, 0, 200, 200), 450, 350);
+    shape(createShape(RECT, 0, 0, 200, 200), 550, 350);
     text("Select a level", 600,50);
-    for (int i = 0; i < levels; i++) {
-      fill(100,200,100);
-      shape(createShape(RECT, 0, 0, 150, 150), (i % 3) * 500 + 150, (i / 3) * 500 + 150);
-      fill(0);
-      textSize(100);
-      text("" + (i + 1), (i % 3) * 500 + 200, (i / 3) * 500 + 250);
-    }
+    
   }
 
   public int clicking(int x, int y) {

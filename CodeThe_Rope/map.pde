@@ -27,7 +27,14 @@ public class Map {
       g = new Goal(500, 300, 50);
       spikes.add(new Spike(80, 750));
       connectors.add(new Connector(800, 750));
-    } else {
+    } 
+    else {
+      connectors = new ArrayList <Connector>();
+      ropes = new ArrayList <Rope>();
+      spikes = new ArrayList <Spike>();
+      g = new Goal(500, 300, 50);
+      PVectorD P2 = new PVectorD(800, 50);
+      c = new Candy((float) P2.x, (float) P2.y, 0, 0, 7, 40);    
     }
   }
 
