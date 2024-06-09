@@ -32,23 +32,30 @@ void setup() {
 
   void draw() {
     background(background);
+    PImage rewind = loadImage("Rewind_button.jpg");
     if(level==0){
       menu.display();
     }
     else{
       m.move();
       m.display();
+      image(rewind,1400,50,50,50);
     }
-    text(level,50,50);
+    
+    //text(level,50,50);
   }
   void mouseClicked(){
     if(level==0){
       level=menu.clicking(mouseX,mouseY);
+      m=new Map(level);
+      m.start();
     }
     else{
-      level=menu.clicking(mouseX,mouseY);
+      if(mouseX>1400&&mouseX<1450&&mouseY>50&&mouseY<100){
+        //text("works",50,50);
+        setup();
+      }
     }
-    m= new Map(level);
   }
   
   void mousePressed() {
