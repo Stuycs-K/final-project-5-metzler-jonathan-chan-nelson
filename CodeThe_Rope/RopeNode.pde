@@ -1,29 +1,27 @@
 public class RopeNode {
-  private RopeNode neighborA, neighborB;
-  private PVectorD position, velocity, springForce;
+  private RopeNode neighborA;
+  private RopeNode neighborB;
+  private PVectorD position;
+  private PVectorD velocity = new PVectorD();
+  private PVectorD springForce = new PVectorD();
   private Candy candyLink;
   private Rope rope;
   private double mass;
   private boolean movable = true;
   ;
 
-  public RopeNode(Rope r, PVectorD p, PVectorD v, double ms, boolean m) {
-    neighborA = null;
-    neighborB = null;
+  public RopeNode(Rope r, PVectorD p, double ms) {
     rope = r;
     position = p;
-    velocity = v;
     springForce = new PVectorD();
     mass = ms;
-    movable = m;
   }
 
-  public RopeNode(Rope r, PVectorD p, double ms) {
-    this(r, p, new PVectorD(), ms, true);
-  }
 
   public RopeNode(RopeNode r) {
-    this(r.getRope(), r.getPosition(), r.getVelocity(), r.getMass(), r.getMovable());
+    this(r.getRope(), r.getPosition(), r.getMass());
+    velocity = r.getVelocity();
+    movable =  r.getMovable();
     springForce = r.getSpringForce();
   }
 
@@ -46,7 +44,7 @@ public class RopeNode {
   public void setSpringForce(PVectorD s) {
     springForce = new PVectorD(s);
   }
-  
+
   public void setCandyLink(Candy c) {
     candyLink = c;
   }
@@ -78,8 +76,8 @@ public class RopeNode {
   public PVectorD getSpringForce() {
     return springForce;
   }
-  
-  
+
+
   public Rope getRope() {
     return rope;
   }

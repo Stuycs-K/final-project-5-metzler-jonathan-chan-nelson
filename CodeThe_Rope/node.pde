@@ -25,7 +25,6 @@ public class Node {
   }
 
   public double calcDistance(Node other) {
-    double distance = staticP.dist(other.position, this.position);
-    return distance;
+    return staticP.dist(other.position, this.position);
   }
 }

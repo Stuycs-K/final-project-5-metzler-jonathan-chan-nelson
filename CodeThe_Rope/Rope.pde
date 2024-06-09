@@ -57,7 +57,7 @@ public class Rope {
   private Rope(RopeNode r, Rope rope) {
     numNodes = 0;
     endpointA = rope.getEndpointB();
-    if (endpointA.getCandyLink() !=  null) endpointA.getCandyLink().unlink(endpointA);
+    if (endpointA.getCandyLink() != null) endpointA.getCandyLink().unlink(endpointA);
     reverse(endpointA);
     endpointB = r;
     wid = rope.getWidth();
@@ -67,7 +67,7 @@ public class Rope {
   }
 
   private void reverse(RopeNode r) {
-    if (r !=  null) {
+    if (r != null) {
       if (r == endpointA);
       RopeNode prev = r.getPrev();
       r.setPrev(r.getNext());
@@ -120,7 +120,7 @@ public class Rope {
   }
 
   private void display(RopeNode r) {
-    if (r !=  null && r.getNext() !=  null) {
+    if (r != null && r.getNext() != null) {
       PVectorD rPos = r.getPosition();
       PVectorD nextPos = r.getNext().getPosition();
       float angle = -atan((float) ((nextPos.y - rPos.y) / (rPos.x - nextPos.x)));
@@ -132,7 +132,7 @@ public class Rope {
       rect(- l / 2, - (float) wid / 2, l, (float) wid);
       rotate(-angle);
       translate(-x, -y);
-      if (r !=  endpointB.getPrev()) display(r.getNext());
+      if (r != endpointB.getPrev()) display(r.getNext());
     }
   }
 
@@ -145,7 +145,7 @@ public class Rope {
   }
 
   private void cut(RopeNode r, float startX, float startY, float endX, float endY, int i) {
-    if (r !=  endpointB) {
+    if (r != endpointB) {
       PVector start = new PVector(startX, startY);
       PVector end = new PVector(endX, endY);
       PVector rPos = r.getPosition().toPVector();
@@ -188,7 +188,7 @@ public class Rope {
 
   private PVectorD calcForce(RopeNode r) {
     PVectorD force = new PVectorD();
-    if (r !=  null && r.getPrev() !=  null) {
+    if (r != null && r.getPrev() != null) {
       PVectorD direction = staticP.sub(r.getPrev().getPosition(), r.getPosition());
       double displacement = direction.mag() - len / (numNodes - 1);
       force = direction.normalize().mult(SPRING_STIFFNESS * numNodes * displacement);
@@ -204,18 +204,18 @@ public class Rope {
     PVectorD springForce = calcForce(r);
     r.setSpringForce(springForce);
     PVectorD force = springForce;
-    if (r !=  endpointB) {
+    if (r != endpointB) {
       move(r.getNext());
       force = springForce.sub(r.getNext().getSpringForce());
     }
     Candy candy = r.getCandyLink();
-    if (candy !=  null) candy.applyForce(force);
+    if (candy != null) candy.applyForce(force);
     force.add(staticP.mult(gravity, r.getMass()));
-    if (endpointB.getCandyLink() !=  null && !endpointA.getMovable()) {
+    if (endpointB.getCandyLink() != null && !endpointA.getMovable()) {
       boolean stationary = false;
       ArrayList <RopeNode> links = endpointB.getCandyLink().getLinks();
       for (int i = 0; i < links.size() && !stationary; i++) {
-        if (links.get(i) !=  endpointB) {
+        if (links.get(i) != endpointB) {
           stationary = !links.get(i).getRope().getEndpointA().getMovable();
         }
       }

@@ -21,8 +21,9 @@ public class Candy extends Node {
     velocity.add(staticP.mult(f, dt / mass));
     getPosition().add(staticP.mult(velocity, dt));
   }
-  
+
   public void link(RopeNode r) {
+    if (links.size() == 0) velocity.div(2);
     links.add(r);
     r.setCandyLink(this);
   }
@@ -32,14 +33,10 @@ public class Candy extends Node {
       r.setCandyLink(null);
       links.remove(r);
     }
+    if (links.size() == 0) velocity.mult(2);
   }
 
   public ArrayList <RopeNode> getLinks() {
     return links;
-  }
-
-  public boolean offTheMap() {
-    boolean b = getPosition().x + getRadius() < 0 || width < getPosition().x - getRadius() || getPosition().y + getRadius() < 0 || height < getPosition().y - getRadius();
-    return b;
   }
 }

@@ -7,7 +7,7 @@ float mouseStartY = -1;
 int level;
 
 static double SPRING_STIFFNESS = 10;
-static double ENERGY_LOSS = 1;
+static double ENERGY_LOSS = 0.999999;
 PVectorD staticP = new PVectorD();
 double dt = 0.0001;
 
@@ -39,8 +39,10 @@ void mousePressed() {
     level = menu.clicking(mouseX, mouseY);
     m = new Map(level);
   } else if (mouseX > 1400 && mouseX < 1450 && mouseY > 50 && mouseY < 100) {
+    mouseStartX = -1;
+    mouseStartX = -1;
     setup();
-  } else if (level != 0 && mouseStartX != -1 && mouseStartY != -1) {
+  } else if (mouseStartX != -1 && mouseStartY != -1) {
     m.mouseMovement(mouseStartX, mouseStartY, mouseX, mouseY);
     mouseStartX = -1;
     mouseStartX = -1;
