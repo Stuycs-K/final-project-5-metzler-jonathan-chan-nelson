@@ -4,11 +4,18 @@ public class Candy extends node {
   float mass;
   color c;
   PImage img;
-  //ArrayList<RopeNode> links = new ArrayList<RopeNode>();
+  ArrayList<RopeNode> links = new ArrayList<RopeNode>();
 
   void display() {
     imageMode(CENTER);
     image(img, (float) position.x, (float) position.y, radius + 10, radius + 10);
+  }
+  
+  public void move() {
+    applyForce(staticP.mult(gravity, mass));
+    for(int i = 0; i < links.size(); i++){
+      links.get(i).setPosition(position);
+    }
   }
   
   public void applyForce(PVectorD f) {
@@ -41,18 +48,18 @@ public class Candy extends node {
     }
     return false;
   }
-  
-  /*
 
   public void link(RopeNode r) {
     links.add(r);
+    r.setCandyLink(this);
+    
   }
 
   public void unlink(RopeNode r) {
     if (links.indexOf(r) != -1) {
       if (links.size() == 1) velocity = staticP.mult(r.getVelocity(), mass / (r.getMass() + mass));
+      r.setCandyLink(null);
       links.remove(r);
     }
   }
-  */
 }

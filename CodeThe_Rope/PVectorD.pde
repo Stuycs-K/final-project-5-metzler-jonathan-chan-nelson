@@ -139,6 +139,12 @@ public class PVectorD {
   double dist(PVectorD p1, PVectorD p2) {
     return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2) + Math.pow(p1.z - p2.z, 2));
   }
+  
+  void invert(){
+    double tempX = x;
+    x = y;
+    y = tempX;
+  }
 
   PVector toPVector() {
     return new PVector((float) x, (float) y, (float) z);

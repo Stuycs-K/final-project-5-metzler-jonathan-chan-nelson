@@ -1,12 +1,12 @@
 Map m;
-PVectorD gravity = new PVectorD(0, 20);
+PVectorD gravity = new PVectorD(0, 2);
 float mouseStartX = -1;
 float mouseStartY = - 1;
 
 boolean test;
 
 static double SPRING_STIFFNESS = 10;
-static double ENERGY_LOSS = 0.99999;
+static double ENERGY_LOSS = 0.999995;
 PVectorD staticP = new PVectorD(0, 0);
 double dt = 0.0001;
 
@@ -21,7 +21,7 @@ void setup() {
 
 void draw() {
   background(255);
-  m.move();
+  //m.move();
   m.display();
   if (mouseStartX != -1 && mouseStartY != -1) {
     float l = (float) Math.sqrt(Math.pow(mouseStartX - mouseX, 2) + Math.pow(mouseStartY - mouseY, 2));

@@ -6,23 +6,23 @@ public class Map {
   double time;
   public Map(int index) {
     if (index==1) {
-      g=new goal(500, 500, 50);
+      //g=new goal(500, 500, 50);
       spikes=new ArrayList<spike>();
       spikes.add(new spike(80, 750));
       ropes=new ArrayList<Rope>();
       PVectorD P1 = new PVectorD(100+200, 250);
-      PVectorD P2 = new PVectorD(100+300, 150);
-      PVectorD P2d = new PVectorD(500+200, 150);
-      PVectorD P3 = new PVectorD(500+300, 250);
+      PVectorD P2 = new PVectorD(100+300, 250);
 
-      ropes.add(new Rope(this, P1, P2, 1, 5, 8));
-      ropes.add(new Rope(this, P3, P2d, 1, 5, 8));
+      PVectorD P3 = new PVectorD(100, 250);
+
+      //ropes.add(new Rope(this, P1, new PVectorD(P2), 1, 5, 20));
+      ropes.add(new Rope(this, P3, new PVectorD(P2), 1, 5, 3));
 
 
       ropes.get(0).setColor(color(200, 320, 160));
-      ropes.get(1).setColor(color(20, 120, 160));
+      //ropes.get(1).setColor(color(20, 120, 160));
       ropes.get(0).getEndpointB().setMovable(true);
-      ropes.get(1).getEndpointB().setMovable(true);
+      //ropes.get(1).getEndpointB().setMovable(true);
       c=new Candy((float) P2.x, (float) P2.y, 0, 0, 10, 40);
       //c.link(ropes.get(0).getEndpointB());
       //c.link(ropes.get(1).getEndpointB());
@@ -33,7 +33,7 @@ public class Map {
   }
 
   public void display() {
-    g.display();
+    //g.display();
     c.display();
     for (int i=0; i<spikes.size(); i++) {
       spikes.get(i).display();
@@ -49,14 +49,19 @@ public class Map {
 
   public void move() {
     time += dt;
-    for (int i=0; i<ropes.size(); i++) {
-      ropes.get(i).move();
+    for (int i = 0; i < 2000; i++) {
+      for (int j=0; j<ropes.size(); j++) {
+        ropes.get(j).move();
+      }
+      c.move();
     }
+    /*
     if (youWin()) {
       text("you win", 100, 100);
     } else if (youLose()) {
       text("you lose", 100, 100);
     }
+    */
   }
 
   public void addRope(Rope r) {
@@ -99,13 +104,14 @@ public class Map {
 
     return false;
   }
-
+/*
   public boolean youWin() {
     if (c.calcDistance(g)<(g.getRadius()+c.radius)/2) {
       return true;
     }
     return false;
   }
+  */
 
   public boolean youLose() {
     for (int i=0; i<spikes.size(); i++) {
