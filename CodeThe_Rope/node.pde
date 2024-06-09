@@ -1,22 +1,30 @@
-public class node {
-  PVectorD position;
-  PShape s;
-  color c;
+public class Node {
+  private PVectorD position;
+  private PImage img;
+  private double radius;
+  private color c;
 
-  public node (double x, double y, PShape shape_, color c_) {
+  public Node (double x, double y, PShape shape_, double r, color c_, PImage img_) {
     position = new PVectorD(x, y);
-    s = shape_;
-    c=c_;
-  }
-  void display() {
-    shape(s, (float) position.x, (float) position.y);
-    s.setFill(c);
-  }
-  void hide() {
-    s.setVisible(false);
+    radius = r;
+    c = c_;
+    img = img_;
   }
 
-  public double calcDistance(node other) {
+  public double getRadius() {
+    return radius;
+  }
+
+  public PVectorD getPosition() {
+    return position;
+  }
+
+  public void display() {
+    imageMode(CENTER);
+    image(img, (float) position.x, (float) position.y, (float) radius + 10, (float) radius + 10);
+  }
+
+  public double calcDistance(Node other) {
     double distance = staticP.dist(other.position, this.position);
     return distance;
   }

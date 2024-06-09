@@ -1,122 +1,80 @@
 public class Map {
-  ArrayList<spike> spikes;
-  ArrayList<Rope> ropes;
-  goal g;
-  Candy c;
-  double time;
+  private ArrayList <Rope> ropes;
+  private ArrayList <Spike> spikes;
+  private Candy c;
+  private Goal g;
+  private double time;
+  private boolean end;
+
   public Map(int index) {
-    if (index==1) {
-      //g=new goal(500, 500, 50);
-      spikes=new ArrayList<spike>();
-      spikes.add(new spike(80, 750));
-      ropes=new ArrayList<Rope>();
-      PVectorD P1 = new PVectorD(100+200, 250);
-      PVectorD P2 = new PVectorD(100+300, 250);
-
-      PVectorD P3 = new PVectorD(100, 250);
-
-      //ropes.add(new Rope(this, P1, new PVectorD(P2), 1, 5, 20));
-      ropes.add(new Rope(this, P3, new PVectorD(P2), 1, 5, 3));
-
-
-      ropes.get(0).setColor(color(200, 320, 160));
-      //ropes.get(1).setColor(color(20, 120, 160));
+    if (index ==1) {
+      g = new Goal(500, 500, 50);
+      spikes = new  ArrayList <Spike>();
+      spikes.add(new Spike(80, 750));
+      ropes = new  ArrayList <Rope>();
+      PVectorD P1 = new PVectorD(100, 250);
+      PVectorD P2 = new PVectorD(300, 450);
+      PVectorD P3 = new PVectorD(500, 250);
+      ropes.add(new Rope(this, P1, new PVectorD(P2), 1.2, 5, 50));
+      ropes.add(new Rope(this, P3, new PVectorD(P2), 1.7, 5, 50));
       ropes.get(0).getEndpointB().setMovable(true);
-      //ropes.get(1).getEndpointB().setMovable(true);
-      c=new Candy((float) P2.x, (float) P2.y, 0, 0, 10, 40);
-      //c.link(ropes.get(0).getEndpointB());
-      //c.link(ropes.get(1).getEndpointB());
+      ropes.get(1).getEndpointB().setMovable(true);
+      c = new Candy((float) P2.x, (float) P2.y, 0, 0, 10, 40);
+      c.link(ropes.get(0).getEndpointB());
+      c.link(ropes.get(1).getEndpointB());
     } else {
-      c=new Candy(100, 100, 0, -1, 10, 40);
-      g=new goal(100, 100, 50);
+      c = new Candy(100, 100, 0, -1, 10, 40);
+      g = new Goal(100, 100, 50);
     }
   }
-
-  public void display() {
-    //g.display();
-    c.display();
-    for (int i=0; i<spikes.size(); i++) {
-      spikes.get(i).display();
-    }
-    for (int i=0; i<ropes.size(); i++) {
-      ropes.get(i).display();
-    }
-  }
-
-  public Candy getCandy() {
-    return c;
-  }
-
-  public void move() {
-    time += dt;
-    for (int i = 0; i < 2000; i++) {
-      for (int j=0; j<ropes.size(); j++) {
-        ropes.get(j).move();
-      }
-      c.move();
-    }
-    /*
-    if (youWin()) {
-      text("you win", 100, 100);
-    } else if (youLose()) {
-      text("you lose", 100, 100);
-    }
-    */
-  }
-
+  
+  
   public void addRope(Rope r) {
     ropes.add(r);
   }
+  
+  public void display() {
+    for (int i = 0; i < ropes.size(); i++) {
+      ropes.get(i).display();
+    }
+    c.display();
+    for (int i = 0; i < spikes.size(); i++) {
+      spikes.get(i).display();
+    }
+    g.display();
+  }
+
+  public void move() {
+    if ((youWin() || youLose()) && !end){
+      ArrayList <RopeNode> links = c.getLinks();
+      for(int i = links.size() - 1; i > -1; i--) c.unlink(links.get(i));
+      end = true;
+    }
+    time +=  dt;
+    for (int i = 0; i < 2000; i++) {
+      for (int j = 0; j < ropes.size(); j++) {
+        ropes.get(j).move();
+      }
+      if (!end) c.move();
+    }
+  }
 
   public void mouseMovement(float startX, float startY, float endX, float endY) {
-    int currSize = ropes.size();
-    for (int i = 0; i < currSize; i++) ropes.get(i).cut(startX, startY, endX, endY);
+    for (int i = ropes.size() - 1; i > -1; i--) ropes.get(i).cut(startX, startY, endX, endY);
   }
 
-  public boolean doesIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float radius) {
-    // Calculate the quadratic equation coefficients
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    double fx = x1 - x3;
-    double fy = y1 - y3;
-
-    double a = dx * dx + dy * dy;
-    double b = 2 * (fx * dx + fy * dy);
-    double c = (fx * fx + fy * fy) - radius * radius;
-
-    // Calculate the discriminant
-    double discriminant = b * b - 4 * a * c;
-
-    // Check if the discriminant is negative (no intersection)
-    if (discriminant < 0) {
-      return false;
-    }
-
-    // Calculate the two solutions for t
-    discriminant = Math.sqrt(discriminant);
-    double t1 = (-b - discriminant) / (2 * a);
-    double t2 = (-b + discriminant) / (2 * a);
-
-    // Check if either t1 or t2 is within the range [0, 1]
-    if ((t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1)) {
-      return true;
-    }
-
-    return false;
-  }
-/*
-  public boolean youWin() {
-    if (c.calcDistance(g)<(g.getRadius()+c.radius)/2) {
+  private boolean youWin(){
+    if(c.calcDistance(g) < (g.getRadius() + c.getRadius()) / 2){
+      text("you win", 100, 100);
       return true;
     }
     return false;
   }
-  */
-
-  public boolean youLose() {
-    for (int i=0; i<spikes.size(); i++) {
-      spike s=spikes.get(i);
-      if (c.calcDistance(s)<(s.getRadius()+c.radius)/2) {
+  private boolean youLose() {
+    for (int i = 0; i < spikes.size(); i++) {
+      Spike s = spikes.get(i);
+      if (c.calcDistance(s) < (spikes.get(i).getRadius() + c.getRadius()) / 2) {
+        text("you lose", 100, 100);
         return true;
       }
     }
