@@ -191,7 +191,7 @@ public class Rope {
     if (r != null && r.getPrev() != null) {
       PVectorD direction = staticP.sub(r.getPrev().getPosition(), r.getPosition());
       double displacement = direction.mag() - len / (numNodes - 1);
-      force = direction.normalize().mult(SPRING_STIFFNESS * numNodes * displacement);
+      force = direction.normalize().mult(SPRING_STIFFNESS * len * displacement);
     }
     return force;
   }

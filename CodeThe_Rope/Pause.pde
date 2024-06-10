@@ -1,8 +1,7 @@
 public class Pause {
   PImage rewind = loadImage("Rewind_button.jpg");
   PImage menu = loadImage("Menu.jpg");
-  public Pause() {
-  }
+  
   public void display() {
     stroke(0);
     fill(100,200,100);

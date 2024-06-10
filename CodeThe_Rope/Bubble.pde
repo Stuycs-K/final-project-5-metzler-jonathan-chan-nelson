@@ -17,12 +17,20 @@ public class Bubble extends Node {
   }
 
   public void connect(Candy c) {
+<<<<<<< HEAD
     gravity.mult(-0.1);
+=======
+    gravity.mult(-0.01);
+>>>>>>> a168bf77d21a965d9c16bf1477063f1d55bee8cc
     candyLink = c;
   }
 
   public void pop() {
+<<<<<<< HEAD
     gravity.mult(-10);
+=======
+    gravity.div(-0.01);
+>>>>>>> a168bf77d21a965d9c16bf1477063f1d55bee8cc
     candyLink = null;
   }
 }
