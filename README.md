@@ -2,6 +2,7 @@
 # APCS2 Final Project
 ## Group Info
 Group Members: Nelson Chan, Jonathan Metzler
+
 Group Name: Code The Rope
 ## Overview
 Emulation of the game Cut the Rope with basic features implemented. Candy is an object whose if moved to the green monster OmNom results in a victory. The score can be boosted by collecting stars. Ropes are attached to the candy and can be cut to maneuver the candy. If a candy hits a bubble it reverses gravity until it is popped. Connectors form new ropes when the candy enters its proximity. The player loses if the candy hits a spike or goes off-screen and can never return. Players choose 6 levels. Levels 1 - 5 each display a new feature.
