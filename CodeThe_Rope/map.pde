@@ -5,7 +5,7 @@ public class Map {
   private Candy c;
   private Goal g;
   private double time;
-  private boolean end;
+  public boolean end;
 
   public Map(int index) {
     if (index == 1) {
@@ -104,7 +104,6 @@ public class Map {
       Spike s = spikes.get(i);
       lose = c.calcDistance(s) <= (s.getRadius() + c.getRadius()) / 2;
     }
-    if (lose) text("You Lost", 100, 100);
     return lose;
   }
 }

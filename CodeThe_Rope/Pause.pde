@@ -14,7 +14,6 @@ public class Pause {
     shape(createShape(RECT, 0, 0, 150, 150), 900, 400);
     fill(0);
     triangle(930, 425, 930, 525, 1025, 475);
-    
   }
 
   public int clicking(int x, int y) {
