@@ -223,10 +223,4 @@ public class Rope {
     }
     r.applyForce(force);
   }
-
-  public void connect() {
-  }
-
-  public void disconnect() {
-  }
 }

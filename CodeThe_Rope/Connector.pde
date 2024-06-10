@@ -3,7 +3,7 @@ public class Connector extends Node {
   private boolean connected = false;
   
   public Connector (double x, double y) {
-    super(x, y, createShape(ELLIPSE, 0, 0, 20, 20), 50, color(100, 100, 100), loadImage("Connector.png"));
+    super(x, y, 50, loadImage("Connector.png"));
   }
   
   public double getConnectRadius(){
@@ -20,16 +20,15 @@ public class Connector extends Node {
   
   public void display(){
     super.display();
-    fill(color(255, 255, 255));
-    double radius = connectRadius / 2;
-    double circum = 2 * Math.PI * radius;
+    fill(color(255, 255, 255, 150));
+    double circum = 2 * Math.PI * connectRadius;
     float sectionLen = 20;
     float sectionDistance = 5;
-    float angle = atan(sectionLen / (float) (radius));
-    float angle2 = atan(sectionDistance / (float) (radius));
-    translate((float) (getPosition().x + radius), (float) (getPosition().y + getRadius() / 4));
+    float angle = atan(sectionLen / (float) (connectRadius));
+    float angle2 = atan(sectionDistance / (float) (connectRadius));
+    translate((float) (getPosition().x + connectRadius), (float) getPosition().y);
     int i = 0;
-    for (float totalLen = 0; totalLen < circum; totalLen += sectionLen + sectionDistance) {
+    for (float totalLen = 0; totalLen + sectionLen + sectionDistance < circum; totalLen += sectionLen + sectionDistance) {
       rect(0, -1, 4, sectionLen);
       translate(0, -(sectionLen + sectionDistance));
       rotate(-angle);
@@ -42,6 +41,6 @@ public class Connector extends Node {
       translate(0, (sectionLen + sectionDistance));
       i--;
     }
-    translate((float) -(getPosition().x + radius), (float) -(getPosition().y + getRadius() / 4));
+    translate((float) -(getPosition().x + connectRadius), (float) -getPosition().y);
   }
 }

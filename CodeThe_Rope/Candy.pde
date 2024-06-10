@@ -3,8 +3,8 @@ public class Candy extends Node {
   private PVectorD velocity;
   private double mass;
 
-  public Candy(double x, double y, float xSpeed, float ySpeed, float mass_, float r) {
-    super(x, y, createShape(ELLIPSE, 0, 0, r, r), r, color(255, 0, 0), loadImage("Candy.png"));
+  public Candy(double x, double y, float xSpeed, float ySpeed, float mass_) {
+    super(x, y, 40, loadImage("Candy.png"));
     velocity = new PVectorD(xSpeed, ySpeed);
     mass = mass_;
   }

@@ -1,31 +1,29 @@
 public class Pause {
-  
+  PImage rewind = loadImage("Rewind_button.jpg");
+  PImage menu = loadImage("Menu.jpg");
   public Pause() {
   }
   public void display() {
+    stroke(0);
     fill(100,200,100);
-    shape(createShape(RECT, 0, 0, 1000, 500), 250, 200);
+    shape(createShape(RECT, 0, 0, 750, 300), 375, 300);
     fill(255);
-    shape(createShape(RECT, 0, 0, 200, 200), 350, 350);
-    shape(createShape(RECT, 0, 0, 200, 200), 450, 350);
-    shape(createShape(RECT, 0, 0, 200, 200), 550, 350);
-    text("Select a level", 600,50);
+    imageMode(CORNER);
+    image(rewind, 450, 400, 150, 150);
+    image(menu, 675, 400, 150, 150);
+    shape(createShape(RECT, 0, 0, 150, 150), 900, 400);
+    fill(0);
+    triangle(930, 425, 930, 525, 1025, 475);
     
   }
 
   public int clicking(int x, int y) {
-    if (x >= 150 && x <= 300 && y >= 150 && y <= 300) {
+    if (x >= 450 && x <= 600 && y >= 400 && y <= 550) {
       return 1;
-    } else if (x >= 650 && x <= 800 && y >= 150 && y <= 300) {
+    } else if (x >= 675 && x <= 825 && y >= 400 && y <= 550) {
       return 2;
-    } else if (x >= 1150 && x <= 1300 && y >= 150 && y <= 300) {
+    } else if (x >= 900 && x <= 1150 && y >= 400 && y <= 550) {
       return 3;
-    } else if (x >= 150 && x <= 300 && x <= 300 && y >= 650 && y <= 800) {
-      return 4;
-    } else if (x >= 150 && x <= 800 && y >= 650 && y <= 800) {
-      return 5;
-    } else if (x >= 1150 && x <= 1300 && y >= 650 && y <= 800) {
-      return 6;
-    } else return 0;
+    } else return -1;
   }
 }

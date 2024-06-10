@@ -2,12 +2,10 @@ public class Node {
   private PVectorD position;
   private PImage img;
   private double radius;
-  private color c;
 
-  public Node (double x, double y, PShape shape_, double r, color c_, PImage img_) {
+  public Node (double x, double y, double r, PImage img_) {
     position = new PVectorD(x, y);
     radius = r;
-    c = c_;
     img = img_;
   }
 
@@ -21,7 +19,7 @@ public class Node {
 
   public void display() {
     imageMode(CENTER);
-    image(img, (float) position.x, (float) position.y, (float) radius + 10, (float) radius + 10);
+    image(img, (float) position.x, (float) position.y, 2 * (float) radius, 2 * (float) radius);
   }
 
   public double calcDistance(Node other) {
