@@ -12,7 +12,7 @@ Pause Button, Menu, Background
 
 ### June 10
 
-Wrote level 1 - 4
+End Screen, Wrote levels 1 - 4
 
 
 ## Nelson Chan
