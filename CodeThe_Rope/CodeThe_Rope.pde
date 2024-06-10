@@ -34,12 +34,12 @@ void draw() {
     menu.display();
   } else if (level == -1) {
     p.display();
-    if(m.getEnd() == -1) {
+    if (m.getEnd() == -1) {
       level = -1;
       fill(0);
       text("You Lost", 650, 200);
     }
-    if(m.getEnd() == 1) {
+    if (m.getEnd() == 1) {
       level = -1;
       fill(0);
       text("You Won", 650, 200);
@@ -52,12 +52,12 @@ void draw() {
     shape(createShape(RECT, 0, 0, 50, 50), 1375, 25);
     image(pause, 1400, 50, 50, 50);
     cutLine();
-    if(m.getEnd() == -1) {
+    if (m.getEnd() == -1) {
       level = -1;
       fill(0);
       text("You Lost", 650, 200);
     }
-    if(m.getEnd() == 1) {
+    if (m.getEnd() == 1) {
       level = -1;
       fill(0);
       text("You Won", 650, 200);
