@@ -1,16 +1,16 @@
 public class Menu {
   private int levels;
-  
+
   public Menu(int levels_) {
     levels=levels_;
   }
   public void display() {
     textSize(50);
     stroke(0);
-    fill(50,150,50);
-    text("Select a level", 600,50);
+    fill(50, 150, 50);
+    text("Select a level", 600, 50);
     for (int i = 0; i < levels; i++) {
-      fill(100,200,100);
+      fill(100, 200, 100);
       shape(createShape(RECT, 0, 0, 150, 150), (i % 3) * 500 + 150, (i / 3) * 500 + 150);
       fill(0);
       textSize(100);

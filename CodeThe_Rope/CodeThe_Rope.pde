@@ -30,42 +30,37 @@ void draw() {
   PImage pause = loadImage("Pause.png");
   if (level == 0) {
     menu.display();
-  } 
-  else if(level == -1){
+  } else if (level == -1) {
     p.display();
   } else {
     m.move();
     m.display();
     fill(255);
-    shape(createShape(RECT,0,0,50,50),1375,25);
+    shape(createShape(RECT, 0, 0, 50, 50), 1375, 25);
     image(pause, 1400, 50, 50, 50);
     cutLine();
   }
 }
 
-void keyPressed(){
-  if(key == ' ') frameRate(1);
+void keyPressed() {
+  if (key == ' ') frameRate(1);
 }
 
 void mousePressed() {
   if (level == 0) {
     level = menu.clicking(mouseX, mouseY);
     m = new Map(level);
-  }
-  else if(level == -1){
-   int index = p.clicking(mouseX,mouseY);
-   if(index==1){
-     level = temp;
-     m= new Map(level);
-   }
-   else if(index==2){
-     setup();
-   }
-   else if(index==3){
-     level=temp;
-   }
-  }
-  else{
+  } else if (level == -1) {
+    int index = p.clicking(mouseX, mouseY);
+    if (index==1) {
+      level = temp;
+      m= new Map(level);
+    } else if (index==2) {
+      setup();
+    } else if (index==3) {
+      level=temp;
+    }
+  } else {
     if (mouseX > 1375 && mouseX < 1450 && mouseY > 50 && mouseY < 100) {
       temp = level;
       level =-1;
@@ -73,7 +68,7 @@ void mousePressed() {
       m.mouseMovement(mouseStartX, mouseStartY, mouseX, mouseY);
       mouseStartX = -1;
       mouseStartY = -1;
-    } else if (!m.pop(mouseX, mouseX)){
+    } else if (!m.pop(mouseX, mouseX)) {
       mouseStartX = mouseX;
       mouseStartY = mouseY;
     }

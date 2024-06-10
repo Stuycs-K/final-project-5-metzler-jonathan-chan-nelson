@@ -4,7 +4,7 @@ public class Candy extends Node {
   private double mass;
 
   public Candy(double x, double y, float xSpeed, float ySpeed, float mass_) {
-    super(x, y, 40, loadImage("Candy.png"));
+    super(x, y, 30, loadImage("Candy.png"));
     velocity = new PVectorD(xSpeed, ySpeed);
     mass = mass_;
   }

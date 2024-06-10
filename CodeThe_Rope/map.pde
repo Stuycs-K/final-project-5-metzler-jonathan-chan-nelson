@@ -25,18 +25,30 @@ public class Map {
         ropes.get(i).getEndpointB().setMovable(true);
         c.link(ropes.get(i).getEndpointB());
       }
-      g = new Goal(500, 300, 70);
+      g = new Goal(500, 300);
       bubbles.add(new Bubble(600, 400));
       connectors.add(new Connector(500, 750));
       spikes.add(new Spike(80, 750));
       stars.add(new Star(600, 750));
-    } else {
-      connectors = new ArrayList <Connector>();
-      ropes = new ArrayList <Rope>();
-      spikes = new ArrayList <Spike>();
-      g = new Goal(500, 300, 50);
+    }
+    if (index == 4) {
+      PVectorD P1 = new PVectorD(400, 100);
       PVectorD P2 = new PVectorD(800, 50);
+      PVectorD P3 = new PVectorD(400, 250);
+      Rope r0 = new Rope(this, P1, new PVectorD(P2), 1, 5, 50);
+      Rope r1 = new Rope(this, P3, new PVectorD(P2), 1, 5, 50);
       c = new Candy((float) P2.x, (float) P2.y, 0, 0, 7);
+      ropes.add(r0);
+      ropes.add(r1);
+      for (int i = 0; i < ropes.size(); i++) {
+        ropes.get(i).getEndpointB().setMovable(true);
+        c.link(ropes.get(i).getEndpointB());
+      }
+      g = new Goal(500, 300);
+      bubbles.add(new Bubble(600, 400));
+      connectors.add(new Connector(500, 750));
+      spikes.add(new Spike(80, 750));
+      stars.add(new Star(600, 750));
     }
   }
 
@@ -111,10 +123,10 @@ public class Map {
       }
     }
   }
-  
-  public boolean pop(float x, float y){
-    if (currBubble != null && Math.pow(x - currBubble.getPosition().x, 2) + Math.pow(y - currBubble.getPosition().y, 2) <= Math.pow(currBubble.getRadius(), 2)){
-      currBubble.pop();    
+
+  public boolean pop(float x, float y) {
+    if (currBubble != null && Math.pow(x - currBubble.getPosition().x, 2) + Math.pow(y - currBubble.getPosition().y, 2) <= Math.pow(currBubble.getRadius(), 2)) {
+      currBubble.pop();
       bubbles.remove(currBubble);
       currBubble = null;
       return true;

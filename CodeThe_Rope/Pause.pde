@@ -1,10 +1,10 @@
 public class Pause {
   PImage rewind = loadImage("Rewind_button.jpg");
   PImage menu = loadImage("Menu.jpg");
-  
+
   public void display() {
     stroke(0);
-    fill(100,200,100);
+    fill(100, 200, 100);
     shape(createShape(RECT, 0, 0, 750, 300), 375, 300);
     fill(255);
     imageMode(CORNER);
