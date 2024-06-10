@@ -8,7 +8,7 @@ float mouseStartY;
 int level;
 int temp;
 
-static double SPRING_STIFFNESS = 1.5;
+static double SPRING_STIFFNESS = 3;
 static double ENERGY_LOSS = 0.999995;
 PVectorD staticP = new PVectorD();
 double dt = 0.0001;
@@ -17,26 +17,24 @@ void setup() {
   background = loadImage("codeTheRope.jpg");
   background.resize(1500, 900);
   size(1500, 900);
-  frameRate(200);
+  frameRate(50);
   menu = new Menu(6);
   level = 0;
-  mouseStartX=-1;
-  mouseStartY=-1;
-  p=new Pause();
+  mouseStartX = -1;
+  mouseStartY = -1;
+  p = new Pause();
 }
 
 void draw() {
+  textSize(50);
+  noStroke();
   background(background);
   PImage pause = loadImage("Pause.png");
   if (level == 0) {
     menu.display();
   } else if (level == -1) {
     p.display();
-<<<<<<< HEAD
     if(m.getEnd() == -1) {
-=======
-    if(m.end==-1) {
->>>>>>> 808afb62faa0060ffdd5f247a3385bcbf6cfed5e
       level = -1;
       fill(0);
       text("You Lost", 650, 200);
@@ -45,6 +43,7 @@ void draw() {
       level = -1;
       fill(0);
       text("You Won", 650, 200);
+      text("Stars Collected: " + m.getScore(), 650, 250);
     }
   } else {
     m.move();
@@ -53,11 +52,7 @@ void draw() {
     shape(createShape(RECT, 0, 0, 50, 50), 1375, 25);
     image(pause, 1400, 50, 50, 50);
     cutLine();
-<<<<<<< HEAD
     if(m.getEnd() == -1) {
-=======
-    if(m.end==-1) {
->>>>>>> 808afb62faa0060ffdd5f247a3385bcbf6cfed5e
       level = -1;
       fill(0);
       text("You Lost", 650, 200);
@@ -66,6 +61,7 @@ void draw() {
       level = -1;
       fill(0);
       text("You Won", 650, 200);
+      text("Stars Collected: " + m.getScore(), 650, 250);
     }
   }
 }
@@ -78,8 +74,10 @@ void mousePressed() {
     int index = p.clicking(mouseX, mouseY);
     if (index == 1) {
       level = temp;
-      m= new Map(level);
+      gravity = new PVectorD(0, 5);
+      m = new Map(level);
     } else if (index == 2) {
+      gravity = new PVectorD(0, 5);
       setup();
     } else if (index == 3) {
       level=temp;

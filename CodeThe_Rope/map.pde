@@ -8,8 +8,7 @@ public class Map {
   private Bubble currBubble = null;
   private Goal g;
   private double time;
-  private int score;
-  private int end;
+  private int score, end;
 
   public Map(int index) {
     if (index == 1) {
@@ -32,19 +31,22 @@ public class Map {
       stars.add(new Star(600, 750));
     }
     if (index == 4) {
-      PVectorD P1 = new PVectorD(400, 100);
-      PVectorD P2 = new PVectorD(800, 50);
-      PVectorD P3 = new PVectorD(400, 250);
+      PVectorD P1 = new PVectorD(300, 100);
+      PVectorD P2 = new PVectorD(200, 50);
+      PVectorD P3 = new PVectorD(400, 75);
+      PVectorD P4 = new PVectorD(600, 25);
       Rope r0 = new Rope(this, P1, new PVectorD(P2), 1, 5, 50);
       Rope r1 = new Rope(this, P3, new PVectorD(P2), 1, 5, 50);
+      Rope r2 = new Rope(this, P4, new PVectorD(P2), 1, 5, 50);
       c = new Candy((float) P2.x, (float) P2.y, 0, 0, 7);
       ropes.add(r0);
       ropes.add(r1);
+      ropes.add(r2);
       for (int i = 0; i < ropes.size(); i++) {
         ropes.get(i).getEndpointB().setMovable(true);
         c.link(ropes.get(i).getEndpointB());
       }
-      g = new Goal(500, 300);
+      g = new Goal(700, 300);
       bubbles.add(new Bubble(600, 400));
       connectors.add(new Connector(500, 750));
       spikes.add(new Spike(80, 750));
@@ -52,7 +54,10 @@ public class Map {
     }
   }
   
-    
+  public int getScore(){
+    return score;
+  }
+  
   public int getEnd(){
     return end;
   }
@@ -80,10 +85,11 @@ public class Map {
       spikes.get(i).display();
     }
     fill(color(255, 255, 255));
-    text("Score:" + score, 100, 50);
   }
 
   public void move() {
+    youWin();
+    youLose();
     if (end == -1 || end == 1) {
       ArrayList <RopeNode> links = c.getLinks();
       for (int i = links.size() - 1; i > -1; i--) c.unlink(links.get(i));
@@ -149,14 +155,13 @@ public class Map {
   }
 
   private void youWin() {
-    textSize(50);
     if (c.calcDistance(g) <= g.getRadius() + c.getRadius()) {
+      gravity = new PVectorD(0, 5);
       end = 1;
     }
   }
 
   private void youLose() {
-    textSize(50);
     Bubble b = currBubble;
     boolean lose = c.getLinks().size() == 0 && (c.getPosition().x + c.getRadius() < 0 && width < c.getPosition().x - c.getRadius() || c.getPosition().y + c.getRadius() < 0 || height < c.getPosition().y - c.getRadius())
       || b != null && b.getPosition().y + b.getRadius() < 0;
@@ -165,7 +170,7 @@ public class Map {
       lose = c.calcDistance(s) <= (s.getRadius() + c.getRadius()) / 2;
     }
     if (lose) {
-      gravity.set(0, Math.abs(gravity.y));
+      gravity = new PVectorD(0, 5);
       end = -1;
     }
   }

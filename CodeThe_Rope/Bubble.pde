@@ -13,7 +13,9 @@ public class Bubble extends Node {
     if (candyLink != null) getPosition().set(candyLink.getPosition());
     fill(color(255, 255, 255, 150));
     circle((float) getPosition().x, (float) getPosition().y, 2 * (float)getRadius() * 0.8);
+    tint(255, 127);
     super.display();
+    tint(255, 255);
   }
 
   public void connect(Candy c) {
