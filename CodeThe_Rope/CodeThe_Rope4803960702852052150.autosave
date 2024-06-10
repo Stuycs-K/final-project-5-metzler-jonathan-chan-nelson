@@ -17,7 +17,7 @@ void setup() {
   background = loadImage("codeTheRope.jpg");
   background.resize(1500, 900);
   size(1500, 900);
-  frameRate(200);
+  frameRate(50);
   menu = new Menu(6);
   level = 0;
   mouseStartX=-1;
@@ -26,17 +26,14 @@ void setup() {
 }
 
 void draw() {
+  textSize(50);
   background(background);
   PImage pause = loadImage("Pause.png");
   if (level == 0) {
     menu.display();
   } else if (level == -1) {
     p.display();
-<<<<<<< HEAD
     if(m.getEnd() == -1) {
-=======
-    if(m.end==-1) {
->>>>>>> 808afb62faa0060ffdd5f247a3385bcbf6cfed5e
       level = -1;
       fill(0);
       text("You Lost", 650, 200);
@@ -45,6 +42,7 @@ void draw() {
       level = -1;
       fill(0);
       text("You Won", 650, 200);
+      text("Stars Collected: " + m.getScore(), 650, 270);
     }
   } else {
     m.move();
@@ -53,11 +51,7 @@ void draw() {
     shape(createShape(RECT, 0, 0, 50, 50), 1375, 25);
     image(pause, 1400, 50, 50, 50);
     cutLine();
-<<<<<<< HEAD
     if(m.getEnd() == -1) {
-=======
-    if(m.end==-1) {
->>>>>>> 808afb62faa0060ffdd5f247a3385bcbf6cfed5e
       level = -1;
       fill(0);
       text("You Lost", 650, 200);
@@ -66,6 +60,7 @@ void draw() {
       level = -1;
       fill(0);
       text("You Won", 650, 200);
+      text("Stars Collected: " + m.getScore(), 650, 270);
     }
   }
 }
