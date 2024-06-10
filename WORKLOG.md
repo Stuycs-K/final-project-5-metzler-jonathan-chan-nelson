@@ -1,14 +1,18 @@
 # Work Log
 
-## GROUP MEMBER 1
+## Jonathan Metzler
 
-### date x
+### May 29
 
-info
+Finished with the goal
 
-### date y
+### June 9
 
-info
+Pause Button, Menu, Background
+
+### June 10
+
+Wrote level 1 - 4
 
 
 ## Nelson Chan
@@ -25,14 +29,10 @@ Rope Swinging and Cutting Finished
 
 Multiple Ropes Connected to Candy Done(Buggy)
 
-### May 29
+### June 8
 
-Finished with the goal
+Cutting fixed, multiple ropes fixed, integration for rope constructor
 
-### May 20
+### June 10
 
-Finished ith the goal
-
-### May 29
-
-Finished with the goal
+Added Bubble and Connector, wrote levels 5 - 6
