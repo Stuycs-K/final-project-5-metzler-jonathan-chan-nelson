@@ -1,5 +1,5 @@
 public class Connector extends Node {
-  private double connectRadius = 50;
+  private double connectRadius = 100;
   private boolean connected = false;
 
   public Connector (double x, double y) {
@@ -26,7 +26,7 @@ public class Connector extends Node {
     float sectionDistance = 5;
     float angle = atan(sectionLen / (float) (connectRadius));
     float angle2 = atan(sectionDistance / (float) (connectRadius));
-    translate((float) (getPosition().x + connectRadius), (float) (getPosition().y - r.getRadius()));
+    translate((float) (getPosition().x + connectRadius), (float) (getPosition().y + getRadius() / 2));
     int i = 0;
     for (float totalLen = 0; totalLen< circum; totalLen += sectionLen + sectionDistance) {
       rect(0, -1, 4, sectionLen);
@@ -41,6 +41,6 @@ public class Connector extends Node {
       translate(0, (sectionLen + sectionDistance));
       i--;
     }
-    translate((float) -(getPosition().x + connectRadius), (float) -(getPosition().y - r.getRadius()));
+    translate((float) -(getPosition().x + connectRadius), (float) -(getPosition().y + getRadius() / 2));
   }
 }

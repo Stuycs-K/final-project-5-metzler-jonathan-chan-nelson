@@ -1,6 +1,6 @@
 public class Spike extends Node {
 
   public Spike (double x, double y) {
-    super(x, y, 40, loadImage("Spike.png"));
+    super(x, y, 30, loadImage("Spike.png"));
   }
 }

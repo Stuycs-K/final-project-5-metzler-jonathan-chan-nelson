@@ -9,7 +9,7 @@ public class Map {
   private Goal g;
   private double time;
   private int score;
-  private boolean end;
+  private int end;
 
   public Map(int index) {
     if (index == 1) {
@@ -51,6 +51,11 @@ public class Map {
       stars.add(new Star(600, 750));
     }
   }
+  
+    
+  public int getEnd(){
+    return end;
+  }
 
   public void addRope(Rope r) {
     ropes.add(r);
@@ -79,17 +84,16 @@ public class Map {
   }
 
   public void move() {
-    if ((youWin() || youLose()) && !end) {
+    if (end == -1 || end == 1) {
       ArrayList <RopeNode> links = c.getLinks();
       for (int i = links.size() - 1; i > -1; i--) c.unlink(links.get(i));
-      end = true;
     }
     time += dt;
-    for (int i = 0; i < 4000; i++) {
+    for (int i = 0; i < 3000; i++) {
       for (int j = 0; j < ropes.size(); j++) {
         ropes.get(j).move();
       }
-      if (!end) {
+      if (end == 0) {
         c.move();
         connectCandy();
       }
@@ -144,16 +148,14 @@ public class Map {
     }
   }
 
-  private boolean youWin() {
+  private void youWin() {
     textSize(50);
     if (c.calcDistance(g) <= g.getRadius() + c.getRadius()) {
-      text("You Won", 100, 100);
-      return true;
+      end = 1;
     }
-    return false;
   }
 
-  private boolean youLose() {
+  private void youLose() {
     textSize(50);
     Bubble b = currBubble;
     boolean lose = c.getLinks().size() == 0 && (c.getPosition().x + c.getRadius() < 0 && width < c.getPosition().x - c.getRadius() || c.getPosition().y + c.getRadius() < 0 || height < c.getPosition().y - c.getRadius())
@@ -164,8 +166,7 @@ public class Map {
     }
     if (lose) {
       gravity.set(0, Math.abs(gravity.y));
-      text("You Lost", 100, 100);
+      end = -1;
     }
-    return lose;
   }
 }
