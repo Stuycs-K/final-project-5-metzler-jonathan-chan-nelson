@@ -5,6 +5,7 @@ public class Map {
   private ArrayList <Spike> spikes = new ArrayList <Spike>();
   private ArrayList <Star> stars = new ArrayList <Star>();
   private Candy c;
+  private Bubble currBubble = null;
   private Goal g;
   private double time;
   private int score;
@@ -102,20 +103,23 @@ public class Map {
   }
 
   private void linkBubble() {
-    for (int i = 0; i < bubbles.size() && gravity.y >= 0; i++) {
+    for (int i = 0; i < bubbles.size() && currBubble == null; i++) {
       Bubble b = bubbles.get(i);
       if (c.calcDistance(b) <= 3 * (b.getRadius() + c.getRadius()) / 4) {
         b.connect(c);
+        currBubble = b;
       }
     }
   }
-
-  private Bubble currBubble() {
-    Bubble b = null;
-    for (int i = 0; i < bubbles.size() && gravity.y < 0 && b == null; i++) {
-      if (bubbles.get(i).getCandyLink() != null) b = bubbles.get(i);
+  
+  public boolean pop(float x, float y){
+    if (currBubble != null && Math.pow(x - currBubble.getPosition().x, 2) + Math.pow(y - currBubble.getPosition().y, 2) <= Math.pow(currBubble.getRadius(), 2)){
+      currBubble.pop();    
+      bubbles.remove(currBubble);
+      currBubble = null;
+      return true;
     }
-    return b;
+    return false;
   }
 
   private void collect() {
@@ -139,7 +143,7 @@ public class Map {
 
   private boolean youLose() {
     textSize(50);
-    Bubble b = currBubble();
+    Bubble b = currBubble;
     boolean lose = c.getLinks().size() == 0 && (c.getPosition().x + c.getRadius() < 0 && width < c.getPosition().x - c.getRadius() || c.getPosition().y + c.getRadius() < 0 || height < c.getPosition().y - c.getRadius())
       || b != null && b.getPosition().y + b.getRadius() < 0;
     for (int i = 0; i < spikes.size() && !lose; i++) {
