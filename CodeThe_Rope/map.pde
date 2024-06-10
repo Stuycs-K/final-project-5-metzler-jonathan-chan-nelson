@@ -9,7 +9,7 @@ public class Map {
   private Goal g;
   private double time;
   private int score;
-  private boolean end;
+  public int end;
 
   public Map(int index) {
     if (index == 1) {
@@ -30,7 +30,26 @@ public class Map {
       connectors.add(new Connector(500, 750));
       spikes.add(new Spike(80, 750));
       stars.add(new Star(600, 750));
-    } else {
+    } 
+    if (index == 2){
+      PVectorD P1 = new PVectorD(50, 100);
+      PVectorD P2 = new PVectorD(800, 160);
+      PVectorD P3 = new PVectorD(900, 100);
+      Rope r0 = new Rope(this, P1, new PVectorD(P2), 1, 5, 10);
+      Rope r1 = new Rope(this, P3, new PVectorD(P2), 1, 5, 10);
+      c = new Candy((float) P2.x, (float) P2.y, 0, 0, 7);
+      ropes.add(r0);
+      ropes.add(r1);
+      for (int i = 0; i < ropes.size(); i++) {
+        ropes.get(i).getEndpointB().setMovable(true);
+        c.link(ropes.get(i).getEndpointB());
+      }
+      g = new Goal(80, 750, 70);
+      stars.add(new Star(600, 750));
+    }
+    
+    
+    else {
       connectors = new ArrayList <Connector>();
       ropes = new ArrayList <Rope>();
       spikes = new ArrayList <Spike>();
@@ -67,17 +86,18 @@ public class Map {
   }
 
   public void move() {
-    if ((youWin() || youLose()) && !end) {
+    if ((youWin() || youLose()) && end==0) {
       ArrayList <RopeNode> links = c.getLinks();
       for (int i = links.size() - 1; i > -1; i--) c.unlink(links.get(i));
-      end = true;
+      if(youWin()) end = 1;
+      else if(youLose()) end =-1;
     }
     time += dt;
     for (int i = 0; i < 2000; i++) {
       for (int j = 0; j < ropes.size(); j++) {
         ropes.get(j).move();
       }
-      if (!end) {
+      if (end==0) {
         c.move();
         connectCandy();
       }

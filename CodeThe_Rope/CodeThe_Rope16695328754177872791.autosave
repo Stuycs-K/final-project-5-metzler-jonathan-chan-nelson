@@ -33,15 +33,14 @@ void draw() {
   } 
   else if(level == -1){
     p.display();
-    if(m.end==-1) {
+    if(m.end) {
       level = -1;
       fill(0);
-      text("You Lost", 650, 200);
+      text("You Lost", 550, 150);
     }
-    if(m.end==1) {
-      level = -1;
+    else{
       fill(0);
-      text("You Won", 650, 200);
+      text("Paused", 550, 150);
     }
   } else {
     m.move();
@@ -50,15 +49,10 @@ void draw() {
     shape(createShape(RECT,0,0,50,50),1375,25);
     image(pause, 1400, 50, 50, 50);
     cutLine();
-    if(m.end==-1) {
+    if(m.end) {
       level = -1;
       fill(0);
-      text("You Lost", 650, 200);
-    }
-    if(m.end==1) {
-      level = -1;
-      fill(0);
-      text("You Won", 650, 200);
+      text("You Lost", 550, 100);
     }
   }
 }
