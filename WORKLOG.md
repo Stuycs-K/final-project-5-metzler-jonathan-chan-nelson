@@ -6,7 +6,7 @@
 
 Finished with the goal
 
-### June 9
+### June 2
 
 Finished Map and Spike Class
 
