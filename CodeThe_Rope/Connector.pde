@@ -1,9 +1,10 @@
 public class Connector extends Node {
-  private double connectRadius = 100;
+  private double connectRadius;
   private boolean connected = false;
 
-  public Connector (double x, double y) {
+  public Connector (double x, double y, double r) {
     super(x, y, 30, loadImage("Connector.png"));
+    connectRadius = r;
   }
 
   public double getConnectRadius() {

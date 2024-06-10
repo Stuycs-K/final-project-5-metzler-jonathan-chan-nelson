@@ -11,11 +11,29 @@ public class Map {
   private int score, end;
 
   public Map(int index) {
+    if (index == 1) {
+      PVectorD P1 = new PVectorD(400, 100);
+      PVectorD P2 = new PVectorD(800, 50);
+      PVectorD P3 = new PVectorD(400, 250);
+      Rope r0 = new Rope(this, P1, new PVectorD(P2), 1, 5, 50);
+      Rope r1 = new Rope(this, P3, new PVectorD(P2), 1, 5, 50);
+      c = new Candy((float) P2.x, (float) P2.y, 0, 0, 7);
+      ropes.add(r0);
+      ropes.add(r1);
+      for (int i = 0; i < ropes.size(); i++) {
+        ropes.get(i).getEndpointB().setMovable(true);
+        c.link(ropes.get(i).getEndpointB());
+      }
+      g = new Goal(500, 300);
+      bubbles.add(new Bubble(600, 400));
+      spikes.add(new Spike(80, 750));
+      stars.add(new Star(600, 750));
+    }
     if (index == 5) {
-      PVectorD P1 = new PVectorD(20, 20);
-      PVectorD P2 = new PVectorD(200, 50);
-      PVectorD P3 = new PVectorD(800, 20);
-      PVectorD P4 = new PVectorD(800, 700);
+      PVectorD P1 = new PVectorD(600, 700);
+      PVectorD P2 = new PVectorD(439, 175);
+      PVectorD P3 = new PVectorD(250, -25);
+      PVectorD P4 = new PVectorD(970, 50);
       Rope r0 = new Rope(this, P1, new PVectorD(P2), 1, 5, 50);
       Rope r1 = new Rope(this, P3, new PVectorD(P2), 1, 5, 50);
       Rope r2 = new Rope(this, P4, new PVectorD(P2), 1, 5, 50);
@@ -27,36 +45,36 @@ public class Map {
         ropes.get(i).getEndpointB().setMovable(true);
         c.link(ropes.get(i).getEndpointB());
       }
-      g = new Goal(1180, 580);
-      bubbles.add(new Bubble(760, 620));
-      connectors.add(new Connector(1250, 200, 150));
-      spikes.add(new Spike(1100, 610));
-      stars.add(new Star(760, 620));
-      stars.add(new Star(1091, 200));
-      stars.add(new Star(1391, 268));
+      g = new Goal(660, 260);
+      bubbles.add(new Bubble(650, 480));
+      stars.add(new Star(660, 55));
+      stars.add(new Star(843, 399));
+      stars.add(new Star(510, 320));
     }
     if (index == 6) {
-      PVectorD P1 = new PVectorD(600, 25);
+      PVectorD P1 = new PVectorD(300, 100);
       PVectorD P2 = new PVectorD(200, 50);
-      PVectorD P3 = new PVectorD(400, 75);
+      PVectorD P3 = new PVectorD(295, -25);
+      PVectorD P4 = new PVectorD(600, 25);
       Rope r0 = new Rope(this, P1, new PVectorD(P2), 1, 5, 50);
       Rope r1 = new Rope(this, P3, new PVectorD(P2), 1, 5, 50);
+      Rope r2 = new Rope(this, P4, new PVectorD(P2), 1, 5, 50);
       c = new Candy((float) P2.x, (float) P2.y, 0, 0, 7);
       ropes.add(r0);
       ropes.add(r1);
+      ropes.add(r2);
       for (int i = 0; i < ropes.size(); i++) {
         ropes.get(i).getEndpointB().setMovable(true);
         c.link(ropes.get(i).getEndpointB());
       }
       g = new Goal(700, 300);
       bubbles.add(new Bubble(600, 400));
-      bubbles.add(new Bubble(840, 800));
-      connectors.add(new Connector(1000, 200, 130));
-      spikes.add(new Spike(450, 300));
-      spikes.add(new Spike(840, 600));
-      stars.add(new Star(449, 431));
-      stars.add(new Star(699, 397));
-      stars.add(new Star(1091, 268));
+      bubbles.add(new Bubble(600, 750));
+      connectors.add(new Connector(425, 700, 175));
+      spikes.add(new Spike(385, 300));
+      stars.add(new Star(600, 750));
+      stars.add(new Star(750, 390));
+      stars.add(new Star(381, 356));
     }
   }
   
@@ -145,7 +163,6 @@ public class Map {
       currBubble.pop();
       bubbles.remove(currBubble);
       currBubble = null;
-      print("XDXDXD");
       return true;
     }
     return false;
@@ -170,7 +187,7 @@ public class Map {
 
   private void youLose() {
     Bubble b = currBubble;
-    boolean lose = c.getLinks().size() == 0 && (c.getPosition().x + c.getRadius() < 0 && width < c.getPosition().x - c.getRadius() || c.getPosition().y + c.getRadius() < 0 || height < c.getPosition().y - c.getRadius() && currBubble != null)
+    boolean lose = c.getLinks().size() == 0 && (c.getPosition().x + c.getRadius() < 0 && width < c.getPosition().x - c.getRadius() || c.getPosition().y + c.getRadius() < 0 || height < c.getPosition().y - c.getRadius())
       || b != null && b.getPosition().y + b.getRadius() < 0;
     for (int i = 0; i < spikes.size() && !lose; i++) {
       Spike s = spikes.get(i);

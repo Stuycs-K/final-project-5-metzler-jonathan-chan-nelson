@@ -20,7 +20,7 @@ public class Pause {
       return 1;
     } else if (x >= 675 && x <= 825 && y >= 400 && y <= 550) {
       return 2;
-    } else if (x >= 900 && x <= 1150 && y >= 400 && y <= 550) {
+    } else if (x >= 900 && x <= 1150 && y >= 400 && y <= 550 && m.getEnd() == 0) {
       return 3;
     } else return -1;
   }
