@@ -33,7 +33,6 @@ void draw() {
   } 
   else if(level == -1){
     p.display();
-<<<<<<< HEAD
     if(m.end==-1) {
       level = -1;
       fill(0);
@@ -44,8 +43,6 @@ void draw() {
       fill(0);
       text("You Won", 650, 200);
     }
-=======
->>>>>>> a168bf77d21a965d9c16bf1477063f1d55bee8cc
   } else {
     m.move();
     m.display();
@@ -53,7 +50,6 @@ void draw() {
     shape(createShape(RECT,0,0,50,50),1375,25);
     image(pause, 1400, 50, 50, 50);
     cutLine();
-<<<<<<< HEAD
     if(m.end==-1) {
       level = -1;
       fill(0);
@@ -64,8 +60,6 @@ void draw() {
       fill(0);
       text("You Won", 650, 200);
     }
-=======
->>>>>>> a168bf77d21a965d9c16bf1477063f1d55bee8cc
   }
 }
 

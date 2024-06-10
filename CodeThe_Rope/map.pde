@@ -93,7 +93,7 @@ public class Map {
       else if(youLose()) end =-1;
     }
     time += dt;
-    for (int i = 0; i < 4000; i++) {
+    for (int i = 0; i < 3000; i++) {
       for (int j = 0; j < ropes.size(); j++) {
         ropes.get(j).move();
       }
