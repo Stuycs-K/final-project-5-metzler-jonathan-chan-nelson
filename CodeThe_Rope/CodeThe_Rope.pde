@@ -6,6 +6,7 @@ PVectorD gravity = new PVectorD(0, 4);
 float mouseStartX;
 float mouseStartY;
 int level;
+int temp;
 
 static double SPRING_STIFFNESS = 10;
 static double ENERGY_LOSS = 0.999999;
@@ -18,23 +19,26 @@ void setup() {
   size(1500, 900);
   frameRate(200);
   menu = new Menu(6);
-  //menu.display();
   level = 0;
   mouseStartX=-1;
   mouseStartY=-1;
   p=new Pause();
-  p.display();
 }
 
 void draw() {
   background(background);
-  PImage rewind = loadImage("Rewind_button.jpg");
+  PImage pause = loadImage("Pause.png");
   if (level == 0) {
     menu.display();
+  } 
+  else if(level == -1){
+    p.display();
   } else {
     m.move();
     m.display();
-    image(rewind, 1400, 50, 50, 50);
+    fill(255);
+    shape(createShape(RECT,0,0,50,50),1375,25);
+    image(pause, 1400, 50, 50, 50);
     cutLine();
   }
 }
@@ -44,9 +48,23 @@ void mousePressed() {
     level = menu.clicking(mouseX, mouseY);
     m = new Map(level);
   }
+  else if(level == -1){
+   int index = p.clicking(mouseX,mouseY);
+   if(index==1){
+     level = temp;
+     m= new Map(level);
+   }
+   else if(index==2){
+     setup();
+   }
+   else if(index==3){
+     level=temp;
+   }
+  }
   else{
     if (mouseX > 1375 && mouseX < 1450 && mouseY > 50 && mouseY < 100) {
-      setup();
+      temp = level;
+      level =-1;
     } else if (mouseStartX != -1 && mouseStartY != -1) {
       m.mouseMovement(mouseStartX, mouseStartY, mouseX, mouseY);
       mouseStartX = -1;
