@@ -1,8 +1,7 @@
 public class Pause {
   PImage rewind = loadImage("Rewind_button.jpg");
   PImage menu = loadImage("Menu.jpg");
-  public Pause() {
-  }
+  
   public void display() {
     stroke(0);
     fill(100,200,100);
@@ -14,10 +13,6 @@ public class Pause {
     shape(createShape(RECT, 0, 0, 150, 150), 900, 400);
     fill(0);
     triangle(930, 425, 930, 525, 1025, 475);
-<<<<<<< HEAD
-    
-=======
->>>>>>> 058089e05d2c2371ebf5d1cc6b3888164ae8959e
   }
 
   public int clicking(int x, int y) {

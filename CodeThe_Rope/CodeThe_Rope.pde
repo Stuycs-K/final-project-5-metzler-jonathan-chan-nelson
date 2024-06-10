@@ -33,14 +33,6 @@ void draw() {
   } 
   else if(level == -1){
     p.display();
-<<<<<<< HEAD
-=======
-    if(m.end) {
-      level = -1;
-      fill(0);
-      text("You Lost", 550, 150);
-    }
->>>>>>> 058089e05d2c2371ebf5d1cc6b3888164ae8959e
   } else {
     m.move();
     m.display();
@@ -48,12 +40,11 @@ void draw() {
     shape(createShape(RECT,0,0,50,50),1375,25);
     image(pause, 1400, 50, 50, 50);
     cutLine();
-    if(m.end) {
-      level = -1;
-      fill(0);
-      text("You Lost", 550, 100);
-    }
   }
+}
+
+void keyPressed(){
+  if(key == ' ') frameRate(1);
 }
 
 void mousePressed() {
@@ -82,7 +73,7 @@ void mousePressed() {
       m.mouseMovement(mouseStartX, mouseStartY, mouseX, mouseY);
       mouseStartX = -1;
       mouseStartY = -1;
-    } else {
+    } else if (!m.pop(mouseX, mouseX)){
       mouseStartX = mouseX;
       mouseStartY = mouseY;
     }
