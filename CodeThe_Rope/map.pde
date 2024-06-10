@@ -16,8 +16,8 @@ public class Map {
       PVectorD P1 = new PVectorD(400, 100);
       PVectorD P2 = new PVectorD(800, 50);
       PVectorD P3 = new PVectorD(400, 250);
-      Rope r0 = new Rope(this, P1, new PVectorD(P2), 1, 5, 10);
-      Rope r1 = new Rope(this, P3, new PVectorD(P2), 1, 5, 10);
+      Rope r0 = new Rope(this, P1, new PVectorD(P2), 1, 5, 50);
+      Rope r1 = new Rope(this, P3, new PVectorD(P2), 1, 5, 50);
       c = new Candy((float) P2.x, (float) P2.y, 0, 0, 7);
       ropes.add(r0);
       ropes.add(r1);
@@ -73,7 +73,7 @@ public class Map {
       end = true;
     }
     time += dt;
-    for (int i = 0; i < 2000; i++) {
+    for (int i = 0; i < 4000; i++) {
       for (int j = 0; j < ropes.size(); j++) {
         ropes.get(j).move();
       }

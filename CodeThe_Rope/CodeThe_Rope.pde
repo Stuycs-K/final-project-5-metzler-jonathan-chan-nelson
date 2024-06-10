@@ -2,14 +2,14 @@ Map m;
 Menu menu;
 Pause p;
 PImage background;
-PVectorD gravity = new PVectorD(0, 4);
+PVectorD gravity = new PVectorD(0, 5);
 float mouseStartX;
 float mouseStartY;
 int level;
 int temp;
 
-static double SPRING_STIFFNESS = 10;
-static double ENERGY_LOSS = 0.999999;
+static double SPRING_STIFFNESS = 1.5;
+static double ENERGY_LOSS = 0.999995;
 PVectorD staticP = new PVectorD();
 double dt = 0.0001;
 
@@ -82,6 +82,7 @@ void mousePressed() {
 
 void cutLine() {
   if (mouseStartX !=-1 && mouseStartY !=-1) {
+    print(gravity);
     fill(color(255, 255, 255));
     float len = (float) Math.sqrt(Math.pow(mouseStartX - mouseX, 2) + Math.pow(mouseStartY - mouseY, 2));
     float angle = PI + atan((float) ((mouseStartY - mouseY) / (mouseStartX - mouseX)));
