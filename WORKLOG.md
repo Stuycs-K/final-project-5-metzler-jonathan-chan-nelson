@@ -8,6 +8,10 @@ Finished with the goal
 
 ### June 9
 
+Finished Map and Spike Class
+
+### June 9
+
 Pause Button, Menu, Background
 
 ### June 10
