@@ -10,6 +10,8 @@ Emulation of the game Cut the Rope with basic features implemented. Candy is an 
 Our game is solely mouse-based. On Menu select level by clicking on it. To cut a rope click once on one side and once on the other. A line segment should appear between the clicks. To pop a bubble click on in. The top right has a pause icon that pulls up the pause menu when pressed. The leftmost pause menu icon is to restart the level, the center icon is to return to the level selection menu, and the rightmost icon is to resume the level.
 No libraries need to be imported.
 ## Presentation
+[Download the video](APCSfinal.mp4)
+or watch at this link
 https://drive.google.com/file/d/1MfhkjPDM8L_ZF0M9P9sDw_YSTzfCeE3q/view?usp=sharing
 ## Bugs
 All rope mechanics are intentional and not bugs.
