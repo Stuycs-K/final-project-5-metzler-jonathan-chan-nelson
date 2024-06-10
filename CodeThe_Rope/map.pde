@@ -26,7 +26,7 @@ public class Map {
       }
       g = new Goal(500, 300, 50);
       spikes.add(new Spike(80, 750));
-      connectors.add(new Connector(800, 750));
+      connectors.add(new Connector(500, 750));
     } 
     else {
       connectors = new ArrayList <Connector>();
